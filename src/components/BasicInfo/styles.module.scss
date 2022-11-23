@@ -1,0 +1,28 @@
+.userProfileImg {
+    display: block;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+.imgFull {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.username{
+    font-size: 30px;
+    font-weight: 600;
+    color: var(--black);
+}
+.userDesignation{
+    color: var(--gray);
+    font-size: 18px;
+}
+.opentoText{
+    font-size: 15px;
+    color: var(--primary);
+}
+.userBasicInfo{
+    text-align: center;
+}

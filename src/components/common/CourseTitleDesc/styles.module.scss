@@ -1,0 +1,103 @@
+.courseBottom {
+  display: flex;
+  justify-content: space-between;
+}
+.courseinfo {
+  display: flex;
+}
+.videoTxt {
+  display: flex;
+  margin: 18px 0;
+}
+.expbox {
+  margin-left: 15px;
+  padding-right: 0;
+  border-right: 1.5px solid #acacac;
+}
+.expbox.borderless {
+  border-right: 0px solid #acacac;
+}
+.contentbox {
+  padding-left: 20px;
+}
+.CAY {
+  font-size: var(--f16);
+}
+.colorgreenay2 {
+  color: var(--primary);
+  text-transform: uppercase;
+  margin-top: 10px;
+}
+.ctitle {
+  font-size: var(--f20);
+  line-height: 30px;
+  color: var(--black);
+  min-height: auto;
+  max-width: 360px;
+}
+.modules .ctitle {
+  font-size: var(--f20);
+  line-height: 26px;
+  p {
+    font-size: var(--f14);
+    font-family: "Grpahik REgular";
+    color: #c9c9c9;
+  }
+}
+.courseinfo {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+  justify-content: center;
+  p:first-child {
+    color: var(--primary);
+    margin-bottom: 6px;
+  }
+  p {
+    font-size: var(--f14);
+    font-family: "Grpahik REgular";
+    color: #c9c9c9;
+  }
+}
+.uploadMain.expvideo {
+  object-fit: cover;
+  border-radius: 0px 0px 0 0;
+  position: relative;
+  width: 100%;
+  height: auto;
+  padding: 0 !important;
+  box-shadow: 0 0 3px var(--gray);
+}
+.uploadVideo {
+  .expbox {
+    padding-right: 0;
+  }
+  .colorgreenay2 {
+    color: var(--primary);
+    margin-top: 0;
+    font-size: var(--f10);
+  }
+  .ctitle {
+    font-size: var(--f14);
+    margin-bottom: 0px;
+    line-height: 16px;
+  }
+  p {
+    font-size: var(--f12);
+    color: var(--gray);
+    line-height: 16px;
+  }
+  .expvideo {
+    object-fit: cover;
+    border-radius: 0;
+    position: relative;
+    width: auto;
+    height: auto;
+    padding: 0 !important;
+    box-shadow: none;
+  }
+  .contentbox {
+    padding-left: 10px;
+    margin-top: 15px;
+  }
+}

@@ -1,0 +1,165 @@
+@font-face {
+  font-family: "Grpahik Medium";
+  src: url("../../../assets/fonts/GRAPHIK-MEDIUM.TTF");
+}
+button {
+  margin: 5px;
+}
+button.isLoadinga {
+  opacity: 0.6;
+  pointer-events: none;
+}
+button.notLoading {
+  opacity: 1;
+}
+button.qaBtn1 {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  border-radius: 50px;
+  text-align: center;
+  transition: all 0.5s ease-in-out;
+  font-family: "Grpahik Medium";
+}
+button.medium {
+  min-width: 130px;
+  padding: 8px 20px;
+  font-size: var(--f16);
+}
+button.smallBtn {
+  min-width: 100px;
+  padding: 6px 10px;
+  font-size: var(--f14);
+}
+button.large {
+  display: block;
+  width: 100%;
+  font-size: var(--f18);
+  padding: 6px 20px;
+}
+button.qaBtn1 {
+  .btnIcon {
+    display: inline-flex;
+    padding-right: 5px;
+    // font-size: var(--f12);
+  }
+}
+button.secondary:hover,
+button.primary {
+  background-color: var(--primary);
+  border: 2px solid var(--primary);
+}
+button.saveBtn {
+  background-color: var(--green);
+  border: 2px solid var(--green);
+  color: var(--white);
+}
+div button.saveBtn:hover {
+  background-color: transparent;
+  border: 2px solid var(--green);
+  color: var(--green);
+}
+div button.dark {
+  background-color: transparent;
+  color: var(--black);
+  border: 2px solid var(--black);
+}
+div button.dark:hover {
+  background-color: var(--black);
+  color: var(--white);
+  border: 2px solid var(--black);
+}
+button.primary:hover,
+button.secondary {
+  background-color: var(--secondary);
+  border: 2px solid var(--secondary);
+}
+button.white {
+  background-color: var(--white);
+  border: 2px solid var(--white);
+  color: var(--primary);
+}
+button.outlined:hover,
+button.transparent:hover,
+button.transparent {
+  background-color: transparent;
+}
+button.outlined {
+  background-color: transparent;
+  color: var(--black);
+  border: 2px solid var(--black);
+}
+button.outlined:hover {
+  color: var(--secondary);
+  border: 2px solid var(--secondary);
+}
+button.redOutlined {
+  color: var(--secondary);
+  border: 2px solid var(--secondary);
+  background-color: transparent;
+}
+button.redOutlined:hover {
+  color: var(--white);
+  border: 2px solid var(--secondary);
+  background-color: var(--secondary);
+}
+button.outlined.secondary:hover,
+button.outlined.primary {
+  color: var(--primary);
+  border: 2px solid var(--primary);
+}
+button.followBtn:hover,
+button.outlined.primary:hover,
+button.outlined.secondary {
+  color: var(--secondary);
+  border: 2px solid var(--secondary);
+}
+button.transparent:hover,
+button.transparent {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  // min-width: auto;
+}
+button.sizeAuto {
+  min-width: unset;
+}
+button.transparent.secondary:hover,
+button.transparent.primary {
+  color: var(--primary);
+}
+button.transparent.primary:hover,
+button.transparent.secondary {
+  color: var(--secondary);
+}
+button.gray {
+  color: var(--gray);
+}
+button.black,
+button.darkGrayColor:hover,
+button.white:hover,
+button.gray:hover {
+  color: var(--black);
+}
+button.whiteColor {
+  color: var(--white);
+}
+button.darkGrayColor {
+  color: var(--dark-gray);
+}
+button.followBtn {
+  background-color: transparent;
+  border: 2px solid var(--primary);
+  color: var(--primary);
+  font-size: var(--f10);
+  min-width: 120px;
+}
+button.followBtn:hover {
+  background-color: transparent;
+}
+button.followBtn {
+  .btnIcon {
+    font-size: var(--f10);
+  }
+}

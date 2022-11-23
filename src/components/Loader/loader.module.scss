@@ -1,0 +1,33 @@
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.loaderMain {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  &::before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    background-color: #0000004f;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+  }
+  .spinnerIcon {
+    margin: 0 auto;
+    font-size: 10vw;
+    color: #2394ae;
+    animation: spin 1.2s linear infinite;
+  }
+}

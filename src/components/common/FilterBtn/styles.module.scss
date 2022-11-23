@@ -1,0 +1,21 @@
+.filterBtn{
+  position: relative;
+  display: inline-block;
+  select{
+    font-size: var(--f14);
+    font-family: "Grpahik Regular";
+    padding: 8px 19px 8px 45px;
+    border-radius: 50px;
+    appearance: none;
+    option{
+      padding: 10px 0;
+    }
+  }
+  .iconCaret{
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+}

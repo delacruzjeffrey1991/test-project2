@@ -1,0 +1,33 @@
+.rewardsTabs {
+    border-bottom: none;
+	padding: 20px 0;
+	li {
+		margin-right: 40px;
+		button {
+			padding: 0;
+			text-transform: uppercase;
+			font-size: var(--f14);
+			color: var(--black);
+			transform: all 0.4s ease-in;
+			position: relative;
+		}
+		button:hover{
+			color: var(--black);
+		}
+        .active {
+            color: var(--black) !important;
+        }
+		button::before{
+			content: '';
+			width: 0;
+			height: 2px;
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			background-color: var(--secondary);
+			transition: all .5s ease-in-out;
+		}
+		
+		
+	}
+}

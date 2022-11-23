@@ -1,0 +1,133 @@
+.flexDiv {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  > a {
+    max-width: 32%;
+    flex: 0 0 32%;
+    padding: 5px 20px;
+  }
+}
+
+.videoTxt {
+  display: flex;
+  margin: 30px 0;
+}
+
+.learningCreate {
+  width: 100%;
+  margin: 40px 0;
+}
+
+.learningCreate {
+  > div {
+    max-width: 100% !important;
+    border-radius: 0;
+    box-shadow: none;
+  }
+}
+
+.learningCreate .expbox {
+  margin-left: 0;
+}
+
+.expvideo video {
+  border-radius: 0;
+}
+
+.learningCreate > div + div {
+  margin-left: 0;
+  padding-right: 0;
+}
+
+div div div .learningCreate {
+  h4 {
+    font-size: var(--f16) !important;
+    line-height: 20px !important;
+  }
+  h3 {
+    font-size: var(--f22) !important;
+    margin-bottom: 0px;
+    line-height: 30px !important;
+    width: 100%;
+    max-width: 100%;
+    font-weight: 600;
+    span {
+      color: var(--black) !important;
+      margin-top: 0;
+      font-size: var(--f17);
+      line-height: 30px;
+      display: block;
+      font-weight: 100;
+      text-transform: capitalize;
+      font-family: "Grpahik Regular";
+    }
+  }
+  p {
+    font-size: var(--f12);
+    color: var(--grayHsl);
+    line-height: 16px;
+    font-weight: 400;
+    font-family: "Grpahik Regular";
+  }
+}
+.learningCreatTxt {
+  p {
+    font-size: var(--f14);
+    font-family: "Grpahik Regular";
+    line-height: 18px;
+    color: var(--gray45);
+  }
+}
+
+.videoTxt {
+  padding: 0;
+  margin: 0;
+
+  > div {
+    padding: 0;
+    margin: 0;
+
+    > div {
+      padding-left: 0 !important;
+    }
+  }
+}
+
+.green {
+  .heading6 {
+    color: var(--primary);
+  }
+}
+
+.recentList::before {
+  content: "";
+  height: 100%;
+  width: 1px;
+  background: #e3e3e3;
+  position: absolute;
+  left: 35px;
+}
+
+.recentList {
+  position: relative;
+  padding-left: 80px;
+  margin-top: 20px;
+  > div {
+    margin: 20px auto;
+    > div {
+      border-radius: 0;
+      box-shadow: none;
+
+      + div {
+        div {
+          padding-left: 15px !important;
+        }
+      }
+    }
+  }
+}
+
+.GroupMain img {
+  max-width: 150px;
+}

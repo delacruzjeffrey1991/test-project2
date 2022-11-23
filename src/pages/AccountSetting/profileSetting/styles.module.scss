@@ -1,0 +1,45 @@
+.notificationMain {
+  .TextFieldQa{
+    input {
+      margin: 0;
+    }
+  }
+
+  .profilesettingform {
+    max-width: 700px;
+    margin-top: 30px;
+    .coltxt {
+      margin-top: 20px;
+      > div {
+        margin: 0;
+        border: 2px solid var(--black2);
+        border-radius: 10px;
+        padding: 5px;
+        input {
+          border-bottom: 0px;
+        }
+      }
+    }
+  }
+  .genderradiobox {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .innerheading  {
+    h1{
+      font-size: var(--f26);
+    }
+  }
+  .innerheading {
+    margin-top: 20px;
+  }
+  .btn{
+    > div {
+      float: right;
+      text-align: right;
+      margin-top: 20px;
+    }
+  }
+}

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
+  <g id="Group_14151" data-name="Group 14151" transform="translate(-425 1336)">
+    <g id="Ellipse_182" data-name="Ellipse 182" transform="translate(425 -1336)" fill="#fff" stroke="#bf161f" stroke-width="2">
+      <circle cx="20" cy="20" r="20" stroke="none"/>
+      <circle cx="20" cy="20" r="19" fill="none"/>
+    </g>
+    <g id="Fingerprint" transform="translate(415.888 -1339.148)">
+      <path id="Path_2555" data-name="Path 2555" d="M30.124,39.7a9.112,9.112,0,0,1-9.112,9.112H20V46.791h1.012A7.087,7.087,0,0,0,28.1,39.7V37.679a1.012,1.012,0,1,1,2.025,0Z" transform="translate(0 -18.567)" fill="#bf161f"/>
+      <path id="Path_2556" data-name="Path 2556" d="M24.05,28.4a5.062,5.062,0,0,1,10.125,0V30.42A13.162,13.162,0,0,1,21.012,43.582H20V41.557h1.012A11.137,11.137,0,0,0,32.149,30.42V28.4a3.037,3.037,0,1,0-6.075,0V30.42a5.062,5.062,0,0,1-5.062,5.063H20V33.457h1.012A3.038,3.038,0,0,0,24.05,30.42Z" transform="translate(0 -9.283)" fill="#bf161f"/>
+      <path id="Path_2557" data-name="Path 2557" d="M38.224,21.137A17.169,17.169,0,0,1,32.092,34.3H28.567A15.17,15.17,0,0,0,36.2,21.137V19.112a7.087,7.087,0,1,0-14.174,0v2.025a1.012,1.012,0,1,1-2.025,0V19.112a9.112,9.112,0,0,1,18.224,0Z" fill="#bf161f"/>
+      <path id="Path_2558" data-name="Path 2558" d="M72.643,74.824v4.609H69.434A19.221,19.221,0,0,0,72.643,74.824Z" transform="translate(-34.419 -45.135)" fill="#bf161f"/>
+    </g>
+  </g>
+</svg>

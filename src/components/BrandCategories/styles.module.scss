@@ -1,0 +1,50 @@
+.mainCategories{
+    gap: 30px;
+    li{
+        font-size: var(--f28);
+        font-family: "Grpahik Semibold";
+        cursor: pointer;
+        color: var(--gray);
+        gap: 10px;
+    }
+    li.active{
+        color: var(--black);
+        .iconDown{
+            transform: rotate(90deg);
+        }
+    }
+
+    .iconDown{
+        font-size: var(--f20);
+        color: var(--primary);
+    }
+}
+.subCategories{
+    gap: 10px;
+    display: none;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 10px 0;
+    li{
+        font-family: "Grpahik RegularItalic";
+        padding-right: 10px;
+        line-height: 1.1;
+        font-style: italic;
+        cursor: pointer;
+    }
+    li:not(:last-child){
+        border-right: 2px solid #929292;
+    }
+    li:hover{
+        color: var(--primary);
+    }
+}
+.subCategories.active{
+    display: flex;
+}
+ul.active{
+    display: block;
+}
+ul.hide{
+    display: none;
+}

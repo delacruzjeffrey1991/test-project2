@@ -1,0 +1,84 @@
+.tabsMain {
+  ul {
+    background: var(--light-white);
+    border-radius: 40px;
+    padding: 5px;
+    margin-bottom: 4.1rem !important;
+
+    li {
+      button {
+        border-radius: 40px !important;
+        min-width: 250px;
+        padding: 6px;
+        font-size: var(--f18);
+        font-family: "Grpahik Regular";
+        text-transform: capitalize;
+        color: var(--black);
+        .active,
+        .show,
+        &:hover {
+          background-color: var(--primary) !important;
+          border-radius: 40px;
+          min-width: 250px;
+          padding: 6px;
+          font-size: var(--f18);
+          font-family: "Grpahik Regular";
+          text-transform: capitalize;
+          color: var(--white);
+          transition: 0.5s ease all;
+        }
+      }
+    }
+  }
+
+  li button.active {
+    background-color: var(--primary) !important;
+  }
+}
+
+.profileStart {
+  div {
+    div {
+      width: 100%;
+    }
+  }
+  span {
+    width: 30% !important;
+    height: 100% !important;
+    + span {
+      width: 60% !important;
+      height: 100% !important;
+      padding-bottom: 30px;
+      h4 {
+        font-size: var(--f24);
+      }
+      p {
+        font-family: "Grpahik Regular";
+      }
+    }
+  }
+  > div {
+    > span {
+      border: 1px solid var(--primary);
+      position: absolute;
+      left: 32%;
+      font-size: var(--f14);
+      text-align: center;
+      bottom: 10px;
+      height: 40px !important;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      color: var(--primary);
+      font-family: "Grpahik Medium";
+      cursor: pointer;
+      width: 40% !important;
+    }
+  }
+}
+
+p {
+  font-family: "Grpahik Regular";
+  color: var(--gray30);
+  padding-right: 40px;
+}

@@ -1,0 +1,26 @@
+.countCards{
+  background-color: #ffffff;
+  text-align: center;
+  border-radius: 20px;
+  position: relative;
+  cursor: pointer;
+  box-shadow: 0 12px 20px rgb(0 0 0 / 5%);
+  padding: 35px 25px;
+  min-width: 230px;
+  transition: all .5s ease-in-out;
+  &:hover{
+    background-color: #f2f2f1;
+  }
+}
+.yellowIcon{
+  background: linear-gradient( 45deg, rgb(245 164 29 / 20%), rgb(245 164 29 / 20%) );
+  color: var(--yellow);
+}
+.redIcon {
+  background: linear-gradient( 45deg, rgb(191 22 31 / 20%), rgb(191 22 31 / 20%) );
+  color: var(--secondary);
+}
+.blueIcon {
+  background: linear-gradient( 45deg, rgb(35 148 174 / 20%), rgb(35 148 174 / 20%) );
+  color: var(--primary);
+}

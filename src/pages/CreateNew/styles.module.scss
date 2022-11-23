@@ -1,0 +1,52 @@
+.startRoomDiv{
+    display: block;
+    max-width: 75%;
+    margin-bottom: 10px;
+    button{
+        margin: 20px 0;
+        padding: 20px;
+    }
+    .selectPrivacyMain{
+        margin-top: 20px;
+        *{
+            transition: all .5s ease-in-out;
+        }
+        .selectPrivacy{
+            padding: 20px;
+            height: 90px;
+            border: 2px solid transparent;
+            border-radius: 10px;
+            img{
+                display: inline-block;
+                width: 75px;
+                object-fit: contain;
+            }
+            svg{
+                font-size: var(--f40);
+            }
+            span{
+                font-size: var(--f16);
+                color: var(--black);
+            }
+        }
+        .selectPrivacy.active,
+        .selectPrivacy:hover{
+            border: 2px solid var(--secondary);
+            border-radius: 10px;
+            cursor: pointer;
+            svg{
+                color: var(--secondary);
+            }
+            img{
+                filter: invert(9%) sepia(76%) saturate(3750%) hue-rotate(337deg) brightness(159%) contrast(113%);
+            }
+        }
+    }
+}
+.creatBtnsDiv{
+    max-width: 70%;
+    button{
+        margin: 8px 0;
+        padding: 12px;
+    }
+}

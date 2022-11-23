@@ -1,0 +1,120 @@
+.MultiSelectBoxWrapper {
+  .selectDropdown {
+    position: relative;
+
+    .selectboxDisplay {
+      background-color: var(--white);
+      width: 100%;
+      padding: 5px 10px;
+      border-radius: 8px;
+      font-size: var(--f18);
+      color: var(--black);
+      font-family: "Grpahik Regular";
+      display: flex;
+      align-items: center;
+      position: relative;
+
+      .searchIcon {
+        display: inline-block;
+        width: 40px;
+
+        button {
+          height: unset;
+          padding: 5px 10px;
+          font-size: var(--f16);
+        }
+      }
+
+      .selectedItem {
+        display: inline-block;
+        width: 85%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .dropdownIcon {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 20px;
+        cursor: pointer;
+      }
+    }
+
+    .dropdownMenu {
+      background-color: var(--white);
+      position: absolute;
+      top: 47px;
+      left: 0;
+      width: 100%;
+      max-height: 220px;
+      overflow-y: auto;
+      box-shadow: 0 5px 6px 3px #00000069;
+      border-radius: 10px;
+      padding: 20px;
+      display: none;
+      z-index: 999;
+    }
+
+    .show.dropdownMenu {
+      display: block;
+    }
+
+    .dropdownMenu::-webkit-scrollbar {
+      width: 5px;
+      height: 10px;
+    }
+
+    .dropdownMenu::-webkit-scrollbar-thumb {
+      background: rgba(136, 136, 136, 0.278);
+      border-radius: 50px;
+    }
+
+    .dropdownMenu::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+
+  }
+
+  .selectList {
+    input {
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 5px;
+      vertical-align: text-bottom;
+      border: 2px solid #707070;
+    }
+
+    input:checked {
+      background-color: #707070;
+      background-image: url("../../../assets/images/Checkmark.png");
+      background-size: 90%;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    span {
+      font-size: var(--f20);
+      color: var(--black);
+      font-family: "Grpahik Regular";
+      margin-left: 10px;
+    }
+  }
+
+  .selectedList {
+    padding: 20px 0;
+
+    li {
+      margin: 10px 0;
+    }
+  }
+}
+
+.saveBtn {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  cursor: pointer;
+}

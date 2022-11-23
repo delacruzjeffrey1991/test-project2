@@ -1,0 +1,42 @@
+.balanceBox {
+	border-radius: 10px;
+	background-color: var(--white);
+	max-width: 330px;
+	width: 100%;
+	box-shadow: 0 12px 20px rgb(0 0 0 / 5%);
+	overflow: hidden;
+	.boxHeader {
+		display: flex;
+		padding: 12px 22px;
+		background-color: var(--secondary);
+		h2 {
+			font-size: var(--f26);
+			color: var(--white);
+			display: inline-block;
+			margin: 0 0 0 12px;
+		}
+	}
+	.contentBody {
+		padding: 30px 22px 32px;
+		position: relative;
+		h3 {
+			font-size: var(--f40);
+			color: var(--eirie-black);
+			font-family: "Grpahik Semibold";
+			span {
+				font-size: var(--f24);
+				font-family: "Grpahik Medium";
+			}
+		}
+		.icon {
+			position: absolute;
+			top: calc(0% - -30px);
+			right: calc(0% - -22px);
+			width: 20px;
+			height: 20px;
+			img {
+				width: 100%;
+			}
+		}
+	}
+}

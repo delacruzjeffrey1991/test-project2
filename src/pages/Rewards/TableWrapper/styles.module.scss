@@ -1,0 +1,22 @@
+.tableWrapperMain{
+	display: block;
+	max-width: 100%;
+	overflow-x: auto;
+	border-radius: 10px;
+	.tablemain{
+		vertical-align: middle;
+		thead{
+			th{
+				padding: 20px 20px;
+			}
+		}
+		tbody{
+			tr{
+				td{
+					padding: 10px 20px;
+					border: none;
+				}
+			}
+		}
+	}
+}

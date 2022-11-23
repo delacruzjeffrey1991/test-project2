@@ -1,0 +1,84 @@
+:root{
+    --asideLeft-width: 120px;
+    --asideRight-width: 260px;
+    --aside-width: 380px;
+    --maintop-nav-height: 220px;
+}
+
+.asideMain{
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.mainAuthLayout{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    max-width: 100%;
+    overflow: hidden;
+    .authLayoutChildrens{
+        display: block;
+        width: 50%;
+        background-color: #fff;
+    }
+}
+
+
+
+.mainWrapperqa{
+    display: flex;
+    justify-content: space-between;
+}
+.sidebar{
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+}
+.mainContent{
+    display: block;
+    padding: 30px 100px 30px 50px;
+    width: calc(100% - var(--asideLeft-width) - var(--asideRight-width));
+    margin-left: calc( var(--asideLeft-width) + var(--asideRight-width) );
+    min-height: 100vh;
+}
+
+.headerWrapper{
+    display: block;
+    position: fixed;
+    height: var(--maintop-nav-height);
+    width: calc(100% - var(--aside-width));
+    top: 0;
+    right: 0;
+    padding: 30px 100px 30px 50px;
+    background: #fff;
+    z-index: 99;
+}
+.pagesInnerContent{
+    padding-top: var(--maintop-nav-height);
+}
+
+
+
+.settingMainContent{
+    width: calc(100% - var(--asideLeft-width));
+    margin-left: calc( var(--asideLeft-width));
+}
+.settingHeaderWrapper{
+    display: block;
+    position: fixed;
+    height: var(--maintop-nav-height);
+    width: calc(100% - var(--asideLeft-width));
+    top: 0;
+    right: 0;
+    padding: 30px 100px 30px 50px;
+    background: #fff;
+    z-index: 99;
+}

@@ -1,0 +1,43 @@
+div .videoTxt {
+  display: flex;
+  margin: 30px 0;
+  > div {
+    + div {
+      > h4 {
+        font-size: var(--f22);
+      }
+    }
+  }
+}
+.modules {
+  display: flex;
+  margin: 50px 0;
+  p {
+    font-size: var(--f14);
+    font-family: "Grpahik REgular";
+    color: var(--color-c9);
+  }
+}
+.pageHeadings {
+  font-size: var(--f32);
+  line-height: 48px;
+  color: var(--black);
+  margin: 20px 0;
+  font-family: "Grpahik Medium";
+}
+.CoursesliderMain {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+}
+.btn1 {
+  max-width: 350px;
+}
+.btn2 {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  button {
+    margin: 20px 0;
+  }
+}

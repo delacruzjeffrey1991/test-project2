@@ -1,0 +1,39 @@
+.ansBox {
+  padding: 30px 50px 50px 30px;
+  min-height: 150px;
+  position: relative;
+  textarea {
+    font-size: var(--f20);
+    font-family: "Grpahik Semibold";
+    display: block;
+    width: 95%;
+    padding: 10px;
+    border: none;
+    min-height: 70px;
+    resize: none;
+    outline: none;
+    color: var(--black);
+    line-height: 1.2;
+  }
+  textarea::-webkit-scrollbar {
+    width: 10px;
+  }
+  textarea::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: #929292;
+  }
+  
+  .editIcon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    button {
+      font-size: var(--f20);
+    }
+  }
+  .saveBtn {
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
+  }
+}

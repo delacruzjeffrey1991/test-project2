@@ -1,0 +1,35 @@
+.alignCenter{
+    align-items: center;
+}
+.spaceBetween{
+    justify-content: space-between;
+}
+.resourceGroupList{
+    margin-bottom: 100px;
+}
+.recentFriendsMain{
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    overflow: auto;
+    margin: 20px 0;
+}
+.friendListMain{
+    .friendListHead{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+.friendList > div > div > div{
+    width: 40px;
+    height: 40px;
+}
+.friendList{
+    display: block;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+.friendList::-webkit-scrollbar{
+    width: 0;
+}

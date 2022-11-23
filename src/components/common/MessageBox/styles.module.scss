@@ -1,0 +1,55 @@
+.inpuField {
+  width: 100%;
+  padding: 8px 10px;
+  border: none;
+  border-radius: 10px;
+  font-size: var(--f15);
+  height: 45px;
+}
+.white {
+  background-color: var(--white);
+}
+.gray {
+  color: var(--gray);
+}
+.black {
+  color: var(--black);
+}
+.offWhite {
+  background-color: var(--off-white);
+}
+
+div div div .form-floating.mb-3 {
+  border: 0;
+}
+div div div .form-floating > input.form-control {
+  border: 0;
+  border-bottom: 1px solid #ccc;
+  border-radius: 0;
+  padding: 0;
+  font-family: "Grpahik Regular";
+  font-size: var(--f14);
+  outline: none !important;
+}
+div div div .form-floating > label {
+  color: var(--primary);
+  font-size: var(--f16);
+  font-family: "Grpahik Medium";
+  padding-left: 0;
+}
+
+div div div .form-floating.mb-3 {
+  outline: none !important;
+}
+
+div div div .form-floating > .form-control:focus,
+div div div .form-floating > .form-control:not(:placeholder-shown) {
+  outline: none;
+  box-shadow: none;
+}
+
+div div div .form-floating > .form-control:focus ~ label,
+div div div .form-floating > .form-control:not(:placeholder-shown) ~ label,
+div div div .form-floating > .form-select ~ label {
+  opacity: 1;
+}

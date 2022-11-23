@@ -1,0 +1,35 @@
+@font-face {
+  font-family: "Grpahik Medium";
+  src: url("../../../assets/fonts/GRAPHIK-MEDIUM.TTF");
+}
+
+button.iconBtn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  text-align: center;
+  font-size: var(--f16);
+  transition: all .5s ease-in-out;
+  height: 45px;
+}
+button.black{
+  color: var(--black);
+}
+button.transparent{
+  background-color: transparent;
+}
+button.secondary:hover,
+button.primary{
+  background-color: var(--primary);
+  color: var(--white);
+  padding: 4px 15px;
+  border-radius: 5px;
+}
+button.primary:hover,
+button.secondary{
+  background-color: var(--secondary);
+  color: var(--white);
+  padding: 4px 15px;
+  border-radius: 5px;
+}

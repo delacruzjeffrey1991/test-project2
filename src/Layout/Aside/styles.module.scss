@@ -1,0 +1,131 @@
+.asideRight {
+  display: block;
+  width: 260px;
+  height: 100%;
+  box-shadow: 10px 3px 30px #dcdfe4;
+  ul {
+    margin: 0;
+    padding: 0;
+  }
+  .topBtns {
+    display: block;
+    margin: 0 auto;
+    padding: 10px 0;
+    width: 80%;
+    .topLgBtns {
+      button {
+        width: 100%;
+        margin: 5px 0;
+      }
+    }
+    select {
+      width: 100%;
+      border: none;
+      outline: none;
+      margin: 40px 0;
+      font-size: 20px;
+      font-family: "Grpahik Medium";
+      background-color: transparent;
+      color: #000000;
+      option {
+        font-family: "Grpahik Regular";
+        font-size: 16px;
+        padding: 10px;
+      }
+    }
+  }
+}
+
+.navLinkQa {
+  margin: 20px auto;
+  cursor: pointer;
+  div {
+    position: relative;
+  }
+  a {
+    text-decoration: none;
+    color: #929292;
+    font-family: "Grpahik Medium";
+    font-size: 20px;
+    transition: all 0.5s ease-in-out;
+  }
+  img {
+    transition: all 0.2s ease-in-out;
+  }
+  .caretIcon {
+    position: absolute;
+    right: 0;
+    top: 6px;
+    display: block;
+    width: 20px;
+    height: fit-content;
+    text-align: center;
+
+    img {
+      width: 12px;
+      height: 12px;
+      object-fit: contain;
+    }
+  }
+}
+
+.rightNav {
+  display: block;
+  width: 100%;
+  border-top: 2px solid #dcdfe4;
+  min-height: 100vh;
+  border-bottom: 2px solid #dcdfe4;
+  height: 100%;
+  padding: 20px;
+  > nav {
+    height: 100%;
+    overflow-y: auto;
+  }
+  > nav::-webkit-scrollbar {
+    width: 0;
+  }
+}
+.iconImg {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+.subMenu {
+  .navLinkQa {
+    margin: 10px 0;
+    width: 100%;
+    margin-left: auto;
+    a {
+      font-size: 16px;
+      color: #2394ae;
+      justify-content: end;
+      padding-right: 30px;
+    }
+  }
+}
+.hide{
+  .subMenu {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .5s ease-in-out;
+  }
+}
+.active {
+  .subMenu {
+    max-height: 500px;
+  }
+}
+.active,
+.navLinkQaMain:hover{
+  .titleLink{
+    color: #000;
+  }
+  .iconImg {
+    filter: invert(10%) sepia(82%) saturate(6586%) hue-rotate(353deg) brightness(92%) contrast(88%);;
+  }
+  .caretIcon{
+    img {
+      filter: invert(48%) sepia(40%) saturate(879%) hue-rotate(144deg) brightness(93%) contrast(82%);
+    }
+  }
+}

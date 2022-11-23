@@ -1,0 +1,232 @@
+.prevIconform {
+  button {
+    padding-left: 5px;
+    position: fixed;
+    top: 30px;
+  }
+}
+.cPrimary {
+  color: var(--primary);
+}
+.cSecondary {
+  color: var(--secondary);
+}
+.cYellow {
+  color: var(--yellow);
+}
+.redDot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: var(--secondary);
+  position: absolute;
+  top: 40%;
+  right: 5%;
+}
+
+.redDotLg.redDot {
+  width: 18px;
+  height: 18px;
+}
+
+.followBtnSq {
+  button {
+    border-radius: 8px;
+    font-size: var(--f14);
+    padding: 5px 10px;
+  }
+}
+
+.bGray {
+  border-color: #8d8d8d;
+}
+
+.pBt20 {
+  padding-bottom: 20px;
+}
+
+div {
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+}
+.dflexCenter {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.roundImg {
+  display: inline-block;
+  border-radius: 50%;
+  overflow: hidden;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+.roundImg55 {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.roundImg40 {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.roundImg30 {
+  width: 30px;
+  height: 30px;
+}
+.roundImg20 {
+  width: 20px;
+  height: 20px;
+}
+.fullImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+}
+
+.grayBox {
+  background-color: #efefef;
+  filter: drop-shadow(0 3px 6px #efefef);
+  padding: 10px 20px;
+}
+
+// Form CSS
+
+div {
+  div {
+    div {
+      .formFloating {
+        border: 0;
+        outline: none !important;
+      }
+      .formFloating {
+        > input {
+          border: 0;
+          border-bottom: 1px solid #ccc;
+          border-radius: 0;
+          padding: 0;
+          font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+          font-size: var(--f14);
+          outline: none !important;
+        }
+        > label {
+          color: var(--primary);
+          font-size: var(--f16);
+          font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+          padding-left: 0;
+        }
+        > .formControl {
+          &:focus {
+            outline: none;
+            box-shadow: none;
+            ~ {
+              label {
+                opacity: 1;
+                font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+              }
+            }
+          }
+          &:not(:placeholder-shown) {
+            outline: none;
+            box-shadow: none;
+            ~ {
+              label {
+                opacity: 1;
+                font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+              }
+            }
+          }
+        }
+        > .formSelect {
+          &:focus {
+            outline: none;
+            box-shadow: none;
+            ~ {
+              label {
+                opacity: 1;
+                font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+.roundImg70 {
+  width: 70px;
+  height: 70px;
+}
+.pt10 {
+  padding: 10px 0 0;
+}
+.cBlack {
+  color: var(--black);
+}
+.cGray {
+  color: var(--gray);
+}
+.pGray {
+  font-size: var(--f14);
+  color: var(--gray);
+  font-family: "Grpahik Regular";
+}
+.f16 {
+  font-size: var(--f16);
+}
+.f14 {
+  font-size: var(--f14);
+}
+.bgSecondary {
+  background-color: var(--secondary);
+  color: var(--white);
+}
+.cardBox {
+  padding: 20px;
+  box-shadow: 0px 3px 6px #efefef;
+  border-radius: 17px;
+  margin-bottom: 20px;
+}
+
+.businessInfoMain {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  min-height: 100vh;
+  .formsBusiness {
+    display: block;
+    width: 80%;
+    margin: 0 auto;
+  }
+}
+
+
+.maxheight65{
+  display: block;
+  max-height: 65vh;
+  overflow-y: auto;
+}
+.scrollbarNone::-webkit-scrollbar{
+  display: none;
+}
+
+.pl_75{
+  padding-left: 75px;
+}
+.dFlexCol{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

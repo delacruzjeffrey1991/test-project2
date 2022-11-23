@@ -1,0 +1,48 @@
+.challengeCards {
+	border: 1px solid #e8e9ea;
+	border-radius: 10px;
+	max-width: 250px;
+	overflow: hidden;
+	margin: 0 0 10px;
+	.challengeCardsImg{
+		width: 100%;
+		height: 150px;
+	}
+	.publishDiv {
+		justify-content: space-between;
+		span {
+			cursor: pointer;
+		}
+	}
+	.cardText {
+		font-size: var(--f16);
+		color: var(--black);
+		font-family: "Grpahik Semibold";
+		margin: 10px 0 20px 0;
+		display: block;
+	}
+	.cardBody{
+		padding: 15px;
+	}
+	.comment {
+		justify-content: space-between;
+		button{
+			flex-direction: row-reverse;
+			gap: 5px;
+			svg{
+				position: relative;
+				top: -1px;
+			}
+		}
+		ul {
+			li {
+				font-size: var(--f14);
+				font-family: "Grpahik Regular";
+				color: var(--gray);
+				span:first-child {
+					margin-right: 5px;
+				}
+			}
+		}
+	}
+}

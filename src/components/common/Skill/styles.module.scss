@@ -1,0 +1,17 @@
+.skillItem{
+    font-size: var(--f15);
+    color: var(--black);
+    margin: 10px 0;
+    transition: all .5s ease-in-out;
+    cursor: pointer;
+}
+.skillItem:hover{
+    color: var(--primary);
+}
+.skillItem {
+    .icon{
+        font-size: var(--f20);
+        color: var(--primary);
+        padding-right: 5px;
+    }
+}

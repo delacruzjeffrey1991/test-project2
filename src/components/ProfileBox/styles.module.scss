@@ -1,0 +1,134 @@
+.profileBox {
+	background-color: var(--white);
+	border: 2px solid #EFEFEF;
+	max-width: 365px;
+	width: 100%;
+	position: absolute;
+	top: 100px;
+    right: 100px;
+	text-align: left;
+	padding: 35px 30px 25px 30px;
+	overflow: hidden;
+	z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all .3s ease-in-out;
+	.userbox {
+		display: flex;
+		align-items: center;
+	}
+}
+.show.profileBox{
+    opacity: 1;
+    visibility: visible;
+}
+.userbox {
+	.userImgbox {
+		width: 75px;
+		height: 75px;
+		border-radius: 50%;
+		margin-right: 25px;
+        overflow: hidden;
+	}
+	.userName {
+		h2 {
+			font-size: var(--f24);
+			color: var(--black);
+			margin: 0;
+		}
+		p {
+			font-size: var(--f16);
+			color: var(--gray);
+			text-transform: uppercase;
+			font-family: 'Grpahik Regular';
+		}
+	}
+}
+.main-top-nav {
+	>ul {
+		li.profile-img {
+			img {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+				cursor: pointer;
+			}
+		}
+	}
+}
+.progressBox {
+	position: relative;
+	padding-bottom: 35px;
+	.progressTxt {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 20px 0 0;
+		p {
+			&:first-child {
+				font-size: var(--f24);
+				color: var(--black);
+			}
+			&:last-child {
+				font-size: var(--f20);
+				font-family: 'Grpahik Regular';
+			}
+		}
+	}
+	.progress {
+		display: flex;
+		overflow: hidden;
+		font-size: var(--f12);
+		height: 20px;
+		border-radius: 100px;
+		background-color: #DCDFE4;
+		margin-top: 8px;
+		.progressBar {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			overflow: hidden;
+			color: var(--white);
+			text-align: center;
+			white-space: nowrap;
+			transition: width .6s ease;
+			background-color: var(--primary);
+			border-radius: 0px 40px 40px 0px;
+		}
+	}
+	&:after {
+		content: '';
+		width: 120%;
+		height: 1px;
+		background: #dcdfe4db;
+		position: absolute;
+		bottom: 0;
+		left: calc(0% - 30px);
+	}
+}
+.userProfileLinks {
+	padding-top: 24px;
+	h3 {
+		font-size: var(--f24);
+		color: var(--black);
+		margin-bottom: 12px;
+	}
+	ul {
+		li {
+			margin-left: 0;
+			margin-bottom: 10px;
+			.userLinks {
+				font-size: var(--f20);
+				font-family: 'Grpahik Regular';
+				color: var(--black);
+				transition: all .3s ease-in;
+			}
+		}
+        .logoutBtn{
+            margin-top: 20px;
+            button{
+                width: 100%;
+            }
+        }
+	}
+}

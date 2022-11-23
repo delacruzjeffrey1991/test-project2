@@ -1,0 +1,95 @@
+.flexDiv {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  button{
+    font-size: var(--f14);
+  }
+}
+.modules {
+  .pl_O {
+    > div {
+      padding-left: 0;
+      margin-left: 0;
+    }
+  }
+}
+.modules {
+  border-bottom: 2px solid var(--gray);
+  padding-bottom: 30px;
+  margin-bottom: 30px;
+  .pl_O {
+    padding-left: 0;
+    margin-left: 0;
+    h4 {
+      font-size: var(--f18);
+      line-height: 26px;
+    }
+    h3 {
+      font-size: var(--f20);
+      line-height: 26px;
+      font-weight: 600;
+      font-family: "Grpahik Medium";
+    }
+  }
+  .separator {
+    padding-left: 20px;
+    border-left: 1px solid #d9d9d9;
+    .socialInfo{
+      display: flex;
+      justify-content: space-evenly;
+      h4{
+        font-size: var(--f14);
+        font-family: 'Grpahik Regular';
+        font-weight: 300;
+        position: relative;
+      }
+      h4:nth-child(2)::before {
+        content: '';
+        position: absolute;
+        right: -27px;
+        width: 2px;
+        height: 100%;
+        background: #b7b7b7;
+    }
+    h4:nth-child(2)::after {
+      content: '';
+      position: absolute;
+      left: -27px;
+      width: 2px;
+      height: 100%;
+      background: #b7b7b7;
+  }
+    }
+    p {
+      position: relative;
+      color: var(--gray);
+      font-weight: 100;
+      font-family: "Grpahik Regular";
+      padding: 20px 0;
+      a {
+        color: var(--primary);
+        text-decoration: underline;
+        font-weight: 500;
+        font-family: "Grpahik Medium";
+      }
+    }
+  }
+}
+
+
+.courseinfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  p:first-child {
+    color: var(--primary);
+    margin-bottom: 6px;
+  }
+  p {
+    font-size: var(--f14);
+    font-family: "Grpahik REgular";
+    color: #c9c9c9;
+    padding-left: 10px; 
+  }
+}

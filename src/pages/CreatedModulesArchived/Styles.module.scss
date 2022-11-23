@@ -1,0 +1,45 @@
+.flexDiv {
+  display: flex;
+  align-items: center;
+}
+.modules {
+  .pl_O {
+    > div {
+      padding-left: 0;
+      margin-left: 0;
+    }
+  }
+}
+.modules {
+  border-bottom: 2px solid var(--gray);
+  padding-bottom: 30px;
+  margin-bottom: 30px;
+  .pl_O {
+    padding-left: 0;
+    margin-left: 0;
+    h4 {
+      font-size: var(--f18);
+      line-height: 24px;
+    }
+    h3 {
+      font-size: var(--f22);
+      line-height: 26px;
+      font-weight: 600;
+      font-family: "Grpahik Medium";
+    }
+  }
+  .separator {
+    padding-left: 20px;
+    border-left: 1px solid #d9d9d9;
+
+    p {
+      position: relative;
+      a {
+        color: var(--primary);
+        text-decoration: underline;
+        position: absolute;
+        right: 0;
+      }
+    }
+  }
+}

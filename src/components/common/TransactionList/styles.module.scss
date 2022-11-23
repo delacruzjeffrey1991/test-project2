@@ -1,0 +1,38 @@
+.trxList {
+	justify-content: space-between;
+	margin: 14px 0;
+	.trxName {
+		width: 65px;
+		height: 65px;
+		background-color: var(--light-white);
+		border-radius: 50%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-size: var(--f20);
+		color: var(--gray);
+		font-family: "Grpahik Regular";
+		margin-right: 30px;
+		text-transform: uppercase;
+	}
+	.trxContent {
+		h2 {
+			font-size: var(--f20);
+			color: var(--black);
+			margin-bottom: 0;
+		}
+		p {
+			font-size: var(--f14);
+			color: var(--gray);
+			font-family: "Grpahik Regular";
+		}
+	}
+	.trxPoints {
+		h4 {
+			font-size: var(--f24);
+			color: var(--black);
+			margin-bottom: 0;
+			font-family: "Grpahik Semibold";
+		}
+	}
+}

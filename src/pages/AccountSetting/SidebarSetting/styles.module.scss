@@ -1,0 +1,41 @@
+.sidebarAcc {
+  display: block;
+  width: 100%;
+  min-height: 100vh;
+  overflow-y: auto;
+  border-right: 2px solid var(--white-ef);
+  ul {
+    margin: 0;
+    padding: 0;
+    li {
+      margin: 10px 0;
+      padding: 10px 0;
+      border-bottom: 2px solid var(--white-ef);
+      display: block;
+      cursor: pointer;
+      .linkAcc {
+        font-size: 20px;
+        color: var(--eirie-black);
+        font-family: "Grpahik Regular";
+        flex: 0 0 100%;
+        display: block;
+        position: relative;
+        .icon{
+          position: absolute;
+          right: 20px;
+          top: 50%;
+          transform: translateY(-50%);
+          color: var(--secondary);
+          opacity: 0;
+        }
+      }
+      .activeLink {
+        color: var(--black);
+        font-family: "Grpahik Medium";
+        .icon{
+          opacity: 1;
+        }
+      }
+    }
+  }
+}

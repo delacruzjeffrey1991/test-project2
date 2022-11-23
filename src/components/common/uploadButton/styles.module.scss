@@ -1,0 +1,144 @@
+@font-face {
+  font-family: "Grpahik Medium";
+  src: url("../../../assets/fonts/GRAPHIK-MEDIUM.TTF");
+}
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.spinner {
+  i {
+    display: inline-block;
+    animation: spin infinite linear 5000ms;
+  }
+}
+button.isLoadinga {
+  opacity: 0.6;
+}
+button.notLoading {
+  opacity: 1;
+}
+button.qaBtn1 {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  border-radius: 50px;
+  text-align: center;
+  transition: all 0.5s ease-in-out;
+  font-family: "Grpahik Medium";
+}
+button.medium {
+  min-width: 130px;
+  padding: 8px 20px;
+  font-size: var(--f16);
+}
+button.smallBtn {
+  min-width: 100px;
+  padding: 6px 10px;
+  font-size: var(--f14);
+}
+button.large {
+  display: block;
+  width: 100%;
+  font-size: var(--f18);
+  padding: 10px 20px;
+}
+
+button.secondary:hover,
+button.primary {
+  background-color: var(--primary);
+  border: 2px solid var(--primary);
+}
+button.primary:hover,
+button.secondary {
+  background-color: var(--secondary);
+  border: 2px solid var(--secondary);
+}
+button.white {
+  background-color: var(--white);
+  border: 2px solid var(--white);
+  color: var(--primary);
+}
+button.outlined:hover,
+button.transparent:hover,
+button.transparent {
+  background-color: transparent;
+}
+button.outlined {
+  background-color: transparent;
+  color: var(--black);
+  border: 2px solid var(--black);
+}
+button.outlined:hover {
+  color: var(--secondary);
+  border: 2px solid var(--secondary);
+}
+button.outlined.secondary:hover,
+button.outlined.primary {
+  color: var(--primary);
+  border: 2px solid var(--primary);
+}
+button.followBtn:hover,
+button.outlined.primary:hover,
+button.outlined.secondary {
+  color: var(--secondary);
+  border: 2px solid var(--secondary);
+}
+button.transparent:hover,
+button.transparent {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  // min-width: auto;
+}
+button.sizeAuto {
+  min-width: unset;
+}
+button.transparent.secondary:hover,
+button.transparent.primary {
+  color: var(--primary);
+}
+button.transparent.primary:hover,
+button.transparent.secondary {
+  color: var(--secondary);
+}
+button.gray {
+  color: var(--gray);
+}
+button.black,
+button.darkGrayColor:hover,
+button.white:hover,
+button.gray:hover {
+  color: var(--black);
+}
+button.whiteColor {
+  color: var(--white);
+}
+button.darkGrayColor {
+  color: var(--dark-gray);
+}
+button.followBtn {
+  background-color: transparent;
+  border: 2px solid var(--primary);
+  color: var(--primary);
+  font-size: var(--f10);
+  min-width: 120px;
+}
+button.followBtn:hover {
+  background-color: transparent;
+}
+button {
+  .btnIcon {
+    padding-left: 5px;
+    font-size: var(--f20);
+    font-weight: 600;
+  }
+}
+.videoIcon > path {
+  stroke: var(--primary);
+}

@@ -1,0 +1,46 @@
+h4.heading {
+  margin-bottom: 0px;
+  padding: 10px 0px;
+  font-weight: 600;
+  line-height: 1.3;
+  font-family: "Grpahik Semibold";
+}
+h4.heading1 {
+  font-size: var(--f40);
+}
+h4.heading2 {
+  font-size: var(--f32);
+}
+h4.heading3 {
+  font-size: var(--f24);
+}
+h4.heading4 {
+  font-size: var(--f20);
+}
+h4.heading5 {
+  font-size: var(--f15);
+}
+.primaryText {
+  color: var(--black);
+}
+.secondaryText {
+  color: var(--eirie-black);
+}
+.bottom {
+  padding-bottom: 10px;
+  border-bottom: 2px solid #e8eaee;
+}
+.top {
+  padding-top: 10px;
+  border-top: 2px solid #e8eaee;
+}
+.centered {
+  text-align: center;
+  .grayText {
+    color: var( --gray);
+  }
+  .bottom {
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e8eaee;
+  }
+}

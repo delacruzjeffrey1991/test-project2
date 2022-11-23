@@ -1,0 +1,84 @@
+.inpuField {
+  width: 100%;
+  padding: 8px 10px;
+  border: none;
+  border-radius: 10px;
+  font-size: var(--f15);
+  height: 45px;
+}
+.white {
+  background-color: var(--white);
+}
+.gray {
+  color: var(--gray);
+}
+.black {
+  color: var(--black);
+}
+.offWhite {
+  background-color: var(--off-white);
+}
+
+// Form CSS
+
+div {
+  div {
+    div {
+      .formFloating {
+        border: 0;
+        outline: none !important;
+      }
+      .formFloating {
+        > input {
+          border: 0;
+          border-bottom: 1px solid #ccc;
+          border-radius: 0;
+          padding: 0;
+          font-family: "Grpahik Medium";
+          font-weight: 500;
+          font-size: var(--f14);
+          outline: none !important;
+        }
+        > label {
+          color: var(--primary);
+          font-size: var(--f16);
+          font-family: "Grpahik Medium";
+          font-weight: 600;
+          padding-left: 0;
+        }
+        > .formControl {
+          padding: 15px 0;
+          &:focus {
+            outline: none;
+            box-shadow: none;
+            ~ {
+              label {
+                opacity: 1;
+                font-family: "Grpahik Medium";
+                font-weight: 600;
+              }
+            }
+          }
+          &:not(:placeholder-shown) {
+            outline: none;
+            box-shadow: none;
+            ~ {
+              label {
+                opacity: 1;
+                font-family: "Grpahik Medium";
+                font-weight: 600;
+              }
+            }
+          }
+        }
+        > .formSelect {
+          ~ {
+            label {
+              opacity: 1;
+            }
+          }
+        }
+      }
+    }
+  }
+}

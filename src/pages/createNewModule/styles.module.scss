@@ -1,0 +1,138 @@
+.videoTxt {
+  display: flex;
+  margin: 30px 0;
+}
+.modules {
+  display: flex;
+  margin: 50px 0;
+  p {
+    font-size: var(--f14);
+    font-family: "Grpahik REgular";
+    color: var(--color-c9);
+  }
+}
+.pageHeadings {
+  font-size: var(--f32);
+  line-height: 48px;
+  color: var(--black);
+  margin: 20px 0;
+  font-family: "Grpahik Medium";
+}
+.CoursesliderMain {
+  position: relative;
+  display: flex;
+}
+.btn1 {
+  button {
+    width: 400px !important;
+  }
+}
+.btn2 {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  button {
+    margin: 20px 0;
+  }
+}
+
+.inputf {
+  input {
+    border-bottom: 1px solid !important;
+    border-radius: 0;
+    margin: 15px 0;
+  }
+}
+
+.uploadfilescontainer.createcourse {
+  padding: 0 !important;
+
+  .dragfilearea {
+    border: 2px dashed var(--primary);
+    border-radius: 15px;
+    margin: 10px auto;
+    min-height: 220px;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+.postmodal {
+  .modaldialog {
+    max-width: 700px;
+    max-height: 420px !important;
+  }
+  .modalcontent {
+    height: 470px;
+    padding: 20px;
+    border-radius: 40px;
+  }
+  h5 {
+    font-size: var(--f26);
+  }
+  input#poptext {
+    height: 170px;
+    width: 100%;
+    padding: 10px;
+    background: #dcdfe4;
+    border-radius: 30px;
+    border: 0px;
+    &::placeholder {
+      color: var(--gray);
+      font-size: var(--f16);
+      vertical-align: top;
+    }
+  }
+}
+.icons {
+  img {
+    background: var(--primary);
+    padding: 10px;
+    height: 40px;
+    border-radius: 10px;
+    margin-right: 10px;
+    margin-bottom: 20px;
+  }
+}
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 30px auto;
+}
+.buttons {
+  button {
+    width: 48% !important;
+    margin-right: 1%;
+  }
+}
+
+.recentList::before {
+  content: "";
+  height: 100%;
+  width: 1px;
+  background: #e3e3e3;
+  position: absolute;
+  left: 35px;
+}
+
+.recentList {
+  position: relative;
+  padding-left: 80px;
+  > div {
+    margin: 20px auto;
+    > div {
+      border-radius: 0;
+      box-shadow: none;
+
+      + div {
+        div {
+          padding-left: 0 !important;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,45 @@
+.Addmultiuser {
+  .TextFieldQa input {
+    margin: 0;
+  }
+  .profilesettingform .coltxt {
+    margin-top: 20px;
+    float: left;
+    margin-right: 2%;
+    width: 30%;
+  }
+
+  .profilesettingform .coltxt > div {
+    margin: 0;
+    border: 2px solid #00000078;
+    border-radius: 10px;
+    padding: 5px;
+  }
+
+  .profilesettingform > div input {
+    border-bottom: 0px;
+  }
+
+  .profilesettingform {
+    margin-top: 30px;
+  }
+
+  .genderradiobox {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .innerheading h1 {
+    font-size: var(--f26);
+  }
+  .innerheading {
+    margin-top: 20px;
+  }
+
+  .btn > div {
+    float: right;
+    text-align: right;
+    margin-top: 20px;
+  }
+}

@@ -1,0 +1,30 @@
+.countDiv {
+	cursor: pointer;
+	.count {
+		font-size: var(--f15);
+		color: #fff;
+		width: 55px;
+		height: 55px;
+		display: inline-flex;
+		justify-content: center;
+		align-items: center;
+		border-radius: 50%;
+		background-color: var(--primary);
+	}
+	.primary {
+		background-color: var(--primary);
+	}
+	.secondary {
+		background-color: var(--secondary);
+	}
+	.yellow {
+		background-color: var(--yellow);
+	}
+	.gray {
+		background-color: var(--gray);
+	}
+	.text {
+		font-size: var(--f15);
+		padding-left: 10px;
+	}
+}

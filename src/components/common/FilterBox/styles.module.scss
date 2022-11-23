@@ -1,0 +1,39 @@
+.filterHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+  border-bottom: 1px solid #a7a7a7;
+  padding: 10px 0;
+  svg {
+    font-size: var(--f29);
+    margin: 8px;
+  }
+  .start {
+    display: flex;
+  }
+  .end {
+    display: flex;
+  }
+}
+.checkboxMain {
+  margin: 30px;
+  > div {
+    > input[type="checkbox"] {
+      border-radius: 0;
+      border: 1px solid #a3a3a3;
+      &:checked {
+        background-color: #2394ae;
+        border-color: #2394ae;
+        font-size: var(--f18);
+      }
+    }
+
+    margin: 12px auto;
+    label {
+      display: inline-block;
+      color: #191919;
+      font-family: "Grpahik Medium";
+    }
+  }
+}

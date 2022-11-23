@@ -1,0 +1,87 @@
+.searchMain {
+  display: block;
+  margin-left: auto;
+  width: 100%;
+  max-width: 400px;
+  position: relative;
+  height: 40px;
+  color: var(--black);
+  button {
+    display: inline-flex;
+    width: 40px;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: var(--gray);
+    font-size: var(--f16);
+    position: absolute;
+    top: -5px;
+    left: 0;
+    transition: background-color 0.5s ease-in-out;
+  }
+  input {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 10px 40px;
+    font-size: var(--f15);
+  }
+  /* clears the ‘X’ from Internet Explorer */
+  input[type="search"]::-ms-clear {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+  input[type="search"]::-ms-reveal {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+
+  input::-webkit-search-decoration,
+  input::-webkit-search-cancel-button,
+  input::-webkit-search-results-button,
+  input::-webkit-search-results-decoration {
+    display: none;
+  }
+  input::-ms-clear {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+  input::-ms-reveal {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+}
+.searchMain.seacrh1 {
+  border: 1px solid var(--gray);
+  border-radius: 8px;
+}
+.searchMain.seacrh2 {
+  border: none;
+  border-radius: 30px;
+  background-color: var(--dull-white);
+  height: 45px;
+  button {
+    background-color: var(--primary);
+    border-radius: 30px;
+    color: var(--white);
+    width: 45px;
+    right: 0;
+    left: unset;
+  }
+  button:hover {
+    background-color: var(--secondary);
+  }
+  input {
+    padding: 10px 50px;
+  }
+}

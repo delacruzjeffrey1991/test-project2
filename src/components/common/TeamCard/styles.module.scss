@@ -1,0 +1,71 @@
+.teamWraper {
+	padding: 35px 60px 30px 22px;
+    margin: 10px 0;
+    border: 1px solid var(--black);
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+	.playBtn{
+		position: absolute;
+		bottom: 10px;
+		right: 10px;
+	}
+	.teamProfile {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		text-align: center;
+		margin-left: 120px;
+		gap: 90px;
+	}
+	.teamTxt {
+		h2 {
+			font-size: var(--f24);
+			color: var(--black);
+			font-family: "Grpahik Semibold";
+			margin-bottom: 20px;
+		}
+		h3 {
+			font-size: var(--f40);
+			line-height: 40px;
+			margin-bottom: 0;
+		}
+		p {
+			font-size: var(--f16);
+			color: var(--black);
+		}
+	}
+}
+.teamWraper:before {
+    content: "";
+    width: 100%;
+    height: 15px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.teamWraper.primary:before {
+	background-color: var(--primary);
+}
+.primary.teamWraper{
+	h3{
+		color: var(--primary);
+	}
+}
+.teamWraper.primary:before {
+	background-color: var(--secondary);
+}
+.secondary.teamWraper{
+	h3{
+		color: var(--secondary);
+	}
+}
+.teamWraper.yellow:before {
+	background-color: var(--yellow);
+}
+.yellow.teamWraper{
+	h3{
+		color: var(--yellow) ;
+	}
+}

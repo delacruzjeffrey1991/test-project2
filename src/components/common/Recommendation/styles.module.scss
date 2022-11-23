@@ -1,0 +1,22 @@
+.recommendationsMain{
+  border-radius: 17px;
+  box-shadow: 0px 3px 6px #efefef;
+  padding: 30px 20px 16px;
+  margin: 15px 0px;
+  h5{
+    font-family: "Grpahik Medium";
+    color: var(--primary);
+    text-transform: uppercase;
+    font-size: var(--f12);
+  }
+  p{
+    color: var(--gray2);
+    font-size: var(--f16);
+    font-family: "Grpahik Regular";
+  }
+  button{
+    display: block;
+    margin-left: auto;
+  }
+
+}
