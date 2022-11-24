@@ -73,7 +73,7 @@ function CreatePost(
     }
 
     async function getSession(token: string): Promise<AxiosResponse<any, any>> {
-        //try {
+        try {
             const url = "https://api.us.amity.co/api/v3/sessions";
         axios.defaults.headers['x-api-key'] = 'b0efed533f8df46c18628b1c515e43dd835fd8e6bc366b2c';
             const requestData = {
@@ -87,9 +87,9 @@ function CreatePost(
 
             const response = await axios.post<AxiosResponse<any, any>>(url,requestData);
             return response.data;
-        //} catch (err) {
-        //    return '';
-        //}
+        } catch (err) {
+           return '';
+        }
     }
 
     async function createPost(accessToken:string): Promise<string> {
