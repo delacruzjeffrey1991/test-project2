@@ -27,7 +27,7 @@ const Button = ({
       disabled={disable}
       className={`${Styles.qaBtn1} ${Styles[variant]} ${Styles[color]} ${Styles[size]
         }  ${isLoading ? Styles.isLoadinga : ""} `}
-    // onClick={props.onClick}
+      onClick={props.onClick}
     >
       {props.icon ? <span className={Styles.btnIcon}> {props.icon} </span> : ""}
       <span>{props.label}</span>
@@ -38,6 +38,7 @@ const Button = ({
       ) : (
         <></>
       )}
+      
     </button>
   );
 };
