@@ -112,7 +112,7 @@ function CreatePost(
                 "tags": [
                     "string"
                 ],
-                "createdAt": "2022-07-07T04:24:20.444Z"
+                "createdAt": now.toJSON()
             }
 
             const response = await axios.post<string>(url, requestData);

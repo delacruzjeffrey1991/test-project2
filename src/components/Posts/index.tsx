@@ -83,6 +83,7 @@ function Posts({ ...props }) {
     axios.defaults.headers["x-api-key"] =
       "b0efed533f8df46c18628b1c515e43dd835fd8e6bc366b2c";
     axios.defaults.headers["Authorization"] = "Bearer " + accessToken;
+    const now = new Date();
     const response = await axios.post<AxiosResponse<any, any>>(url, {
       referenceType: "content",
       referenceId: props.id,
@@ -90,7 +91,7 @@ function Posts({ ...props }) {
         text: commentText,
       },
       metadata: {},
-      createdAt: "2022-07-07T04:24:20.444Z",
+      createdAt: now.toJSON(),
     });
     console.log("response: ");
     console.log(response);
