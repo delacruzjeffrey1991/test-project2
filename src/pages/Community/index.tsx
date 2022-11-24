@@ -48,7 +48,12 @@ const Community = () => {
 
         const response = await axios.get<string>(url);
         console.log("asd");
+
+        console.log("fetchPosts data.posts");
         console.log(response.data.posts);
+
+        console.log("fetchPosts data");
+        console.log(response.data);
         setPosts(response.data.posts);
       } catch (err) {
         return "";
@@ -132,19 +137,38 @@ const Community = () => {
                 currentUserImg={inst3Img}
                 postText=" I would like to Kudos @Carla, for the #courteousness in every appointment, and deadlines throughout the month of may "
               />
-              {posts.map((p) => (
-                <Posts
-                  postOwnerImg={inst3Img}
-                  postOwner="You"
-                  postTime={moment(p.updatedAt).fromNow()}
-                  reactedUserImg={inst4Img}
-                  commentsCount="0"
-                  shareCount="0"
-                  currentUserImg={inst3Img}
-                  postText={p.data.text}
-                  id={p._id}
-                />
-              ))}
+              {posts.map((p) => {
+                if (Array.isArray(p.data.images)) {
+                  return (
+                    <Posts
+                      postOwnerImg={inst3Img}
+                      postOwner="You"
+                      postImgId={p.data.images[0]}
+                      postTime={moment(p.updatedAt).fromNow()}
+                      reactedUserImg={inst4Img}
+                      commentsCount="0"
+                      shareCount="0"
+                      currentUserImg={inst3Img}
+                      postText={p.data.text}
+                      id={p._id}
+                    />
+                  );
+                } else {
+                  return (
+                    <Posts
+                      postOwnerImg={inst3Img}
+                      postOwner="You"
+                      postTime={moment(p.updatedAt).fromNow()}
+                      reactedUserImg={inst4Img}
+                      commentsCount="0"
+                      shareCount="0"
+                      currentUserImg={inst3Img}
+                      postText={p.data.text}
+                      id={p._id}
+                    />
+                  );
+                }
+              })}
             </Col>
           </Row>
         </Col>

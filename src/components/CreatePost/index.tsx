@@ -1,188 +1,264 @@
-import React from 'react'
-import Styles from './styles.module.scss'
-import Inputqa from '../../components/common/Inputqa';
-import Button from '../../components/common/Button';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {  faVideo , faImage , faSmile , faFile , faCalendar } from '@fortawesome/free-solid-svg-icons'
-import { FaMoneyBillWave } from 'react-icons/fa';
+import React, { useRef } from "react";
+import Styles from "./styles.module.scss";
+import Inputqa from "../../components/common/Inputqa";
+import Button from "../../components/common/Button";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faVideo,
+  faImage,
+  faSmile,
+  faFile,
+  faCalendar,
+} from "@fortawesome/free-solid-svg-icons";
+import { FaMoneyBillWave } from "react-icons/fa";
 import { useState, useEffect } from "react";
-import { createClient, enableCache, createPost, createQuery, runQuery } from '@amityco/ts-sdk';
 import axios from "axios";
-import { AxiosResponse } from 'axios';
+import { AxiosResponse } from "axios";
+import MediaSelector from "../MediaSelector";
 
+function CreatePost({ variant = "primary" }) {
+  const [postText, setPostText] = useState<string>("");
+  const [selectedMedia, setSelectedMedia] = useState<[any]>();
+  const [mediaPickerVisible, setMediaPickerVisible] = useState<boolean>(false);
 
-function CreatePost(
-  {
-    variant = 'primary',
+  const v3API = "https://api.us.amity.co/api/v3";
+
+  const updatePostText = (name: string): void => {
+    setPostText(name);
+  };
+
+  const handleAttachMedia = (event) => {
+    event.preventDefault();
+
+    console.log("Attach image/video btn clicked");
+    setMediaPickerVisible((prevVal) => !prevVal);
+  };
+
+  const handleAttachedMediaChange = (event) => {
+    setSelectedMedia([event.target.files[0]]);
+  };
+
+  console.log("Selected Media: ");
+  console.log(selectedMedia);
+  console.log(typeof selectedMedia);
+
+  async function uploadAttachedMedia(
+    accessToken: string
+  ): Promise<AxiosResponse<any, any>> {
+    try {
+      axios.defaults.headers["x-api-key"] =
+        "b0efed533f8df46c18628b1c515e43dd835fd8e6bc366b2c";
+      axios.defaults.headers["Authorization"] = "Bearer " + accessToken;
+
+      const formData = new FormData();
+      formData.append("file", selectedMedia[0]);
+      const response3 = await axios.post<AxiosResponse<any, any>>(
+        v3API + "/files",
+        formData,
+        {
+          headers: {
+            "content-type": "multipart/form-data",
+          },
+        }
+      );
+
+      return response3.data;
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
   }
-) {
-    const [postText, setPostText] = useState<string>('');
 
-    const updatePostText = (name: string): void => {
-        setPostText(name)
+  const createMediaPost = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+
+    console.log("Media Post btn clicked");
+    console.log(selectedMedia);
+    console.log(postText);
+
+    (async () => {
+      const response = await getToken();
+      console.log(response);
+
+      const response2 = await getSession(response);
+      console.log(response2);
+
+      // upload media and get the url
+      const fileUploadResult = await uploadAttachedMedia(response2.accessToken);
+      console.log("Media upload response");
+      console.log(fileUploadResult);
+
+      const now = new Date();
+      const requestData = {
+        data: {
+          text: postText,
+          images: [fileUploadResult[0].fileId],
+        },
+        dataType: "upstra.customtype",
+        targetType: "user",
+        targetId: "jeffrey-test2",
+        metadata: {},
+        postId: now + "jeffrey-test2",
+        tags: ["string"],
+        createdAt: now.toJSON(),
+      };
+
+      const response3 = await axios.post<string>(v3API + "/posts", requestData);
+      console.log("Media Post result: ");
+      console.log(response3);
+
+      window.location.reload();
+    })();
+  };
+
+  const createTextPost = () => {
+    console.log("Post btn clicked");
+    console.log(postText);
+
+    (async () => {
+      const response = await getToken();
+      console.log(response);
+
+      const response2 = await getSession(response);
+      console.log(response2.accessToken);
+
+      const response3 = await createPost(response2.accessToken);
+      console.log(response3);
+      window.location.reload();
+    })();
+  };
+
+  async function createPost(accessToken: string): Promise<string> {
+    try {
+      axios.defaults.headers["x-api-key"] =
+        "b0efed533f8df46c18628b1c515e43dd835fd8e6bc366b2c";
+      axios.defaults.headers["Authorization"] = "Bearer " + accessToken;
+      const now = new Date();
+      const requestData = {
+        data: {
+          text: postText,
+        },
+        dataType: "upstra.customtype",
+        targetType: "user",
+        targetId: "jeffrey-test2",
+        metadata: {},
+        postId: now + "jeffrey-test2",
+        tags: ["string"],
+        createdAt: now.toJSON(),
+      };
+
+      const response = await axios.post<string>(v3API + "/posts", requestData);
+      return response.data;
+    } catch (err) {
+      return "";
     }
+  }
 
-
-
-
-
-    const createPostText = (event: React.MouseEvent<HTMLButtonElement>) => {
-        event.preventDefault();
-
-        console.log('jepri clicked2');
-        console.log(postText);
-        (async () => {
-            const response = await getToken();
-            console.log(response);
-
-            const response2 = await getSession(response);
-            console.log(response2.accessToken);
-
-            const response3 = await createPost(response2.accessToken);
-            console.log(response3);
-            window.location.reload();
-        })();
-
-        //const apiKey = "b0efec0f328df0614a668814540e14d9835adab1b2606c24";
-        //const client = createClient(apiKey, "us");
-        //enableCache();
-
-        //const query = createQuery(createPost, {
-
-        //    data: {
-        //        text: postText,
-        //    },
-        //    targetType: 'user',
-        //    targetId: 'jeffrey-test2',
-        //});
-
-        //runQuery(query, result => console.log(result));
-
-
-    };
-
-    async function getToken(): Promise<string> {
-       try {
-           const url = "https://api.us.amity.co/api/v3/authentication/token?userId=jeffrey-test2";
-           axios.defaults.headers['x-server-key'] = '138fbb2f22e5af367025ee9d6ff02c0d903fd74f560f87b71119197aa125645cd01015cd7b7236193b8fcc7a42a114864a399cd85b55dd2c88d6447055';
-           const response = await axios.get<string>(url);
-           return response.data;
-         } catch (err) {
-           return '';
-       }
+  async function getToken(): Promise<string> {
+    try {
+      const url =
+        "https://api.us.amity.co/api/v3/authentication/token?userId=jeffrey-test2";
+      axios.defaults.headers["x-server-key"] =
+        "138fbb2f22e5af367025ee9d6ff02c0d903fd74f560f87b71119197aa125645cd01015cd7b7236193b8fcc7a42a114864a399cd85b55dd2c88d6447055";
+      const response = await axios.get<string>(url);
+      return response.data;
+    } catch (err) {
+      return "";
     }
+  }
 
-    async function getSession(token: string): Promise<AxiosResponse<any, any>> {
-        try {
-            const url = "https://api.us.amity.co/api/v3/sessions";
-        axios.defaults.headers['x-api-key'] = 'b0efed533f8df46c18628b1c515e43dd835fd8e6bc366b2c';
-            const requestData = {
-                "userId": "jeffrey-test2",
-                "deviceId": "jeffrey-test2",
+  async function getSession(token: string): Promise<AxiosResponse<any, any>> {
+    try {
+      const url = "https://api.us.amity.co/api/v3/sessions";
+      axios.defaults.headers["x-api-key"] =
+        "b0efed533f8df46c18628b1c515e43dd835fd8e6bc366b2c";
+      const requestData = {
+        userId: "jeffrey-test2",
+        deviceId: "jeffrey-test2",
 
+        displayName: "jeffrey-test2",
+        authToken: token,
+      };
 
-                "displayName": "jeffrey-test2",
-                "authToken": token
-            };
-
-            const response = await axios.post<AxiosResponse<any, any>>(url,requestData);
-            return response.data;
-        } catch (err) {
-           return '';
-        }
+      const response = await axios.post<AxiosResponse<any, any>>(
+        url,
+        requestData
+      );
+      return response.data;
+    } catch (err) {
+      return "";
     }
-
-    async function createPost(accessToken:string): Promise<string> {
-        try {
-            const url = "https://api.us.amity.co/api/v3/posts";
-            axios.defaults.headers['x-api-key'] = 'b0efed533f8df46c18628b1c515e43dd835fd8e6bc366b2c';
-            axios.defaults.headers['Authorization'] = 'Bearer ' + accessToken;
-            const now = new Date();
-            const requestData = {
-                "data": {
-                    "text": postText
-
-
-                },
-                "dataType": "upstra.customtype",
-                "targetType": "user",
-                "targetId": "jeffrey-test2",
-                "metadata": {},
-                "postId": now + "jeffrey-test2",
-                "tags": [
-                    "string"
-                ],
-                "createdAt": now.toJSON()
-            }
-
-            const response = await axios.post<string>(url, requestData);
-            return response.data;
-        } catch (err) {
-            return '';
-        }
-    }
+  }
 
   return (
     <>
       <div className={`${Styles.userCreatePost} ${Styles[variant]}`}>
-        <Inputqa placeholder='Who Would you like to recognize?' updatePostText={updatePostText} />
+        <Inputqa
+          placeholder="Who Would you like to recognize?"
+          updatePostText={updatePostText}
+        />
+        {mediaPickerVisible && (
+          <MediaSelector
+            handleAttachedMediaChange={handleAttachedMediaChange}
+          />
+        )}
         <div className={Styles.createpostBtnsMain}>
           <div className={Styles.createpostBtns}>
             <Button
-              label='Reward'
-              variant='transparent'
-              color='whiteColor'
+              label="Reward"
+              variant="transparent"
+              color="whiteColor"
               icon={<FaMoneyBillWave />}
-              size='sizeAuto'
+              size="sizeAuto"
             />
             <Button
-              label='Live Video'
-              variant='transparent'
-              color='whiteColor'
+              label="Live Video"
+              variant="transparent"
+              color="whiteColor"
               icon={<FontAwesomeIcon icon={faVideo} />}
-              size='sizeAuto'
+              size="sizeAuto"
             />
             <Button
-              label='Photo/Video'
-              variant='transparent'
-              color='whiteColor'
+              label="Photo/Video"
+              variant="transparent"
+              color="whiteColor"
               icon={<FontAwesomeIcon icon={faImage} />}
-              size='sizeAuto'
+              size="sizeAuto"
+              onClick={handleAttachMedia}
             />
             <Button
-              label='Kudos'
-              variant='transparent'
-              color='whiteColor'
+              label="Kudos"
+              variant="transparent"
+              color="whiteColor"
               icon={<FontAwesomeIcon icon={faSmile} />}
-              size='sizeAuto'
+              size="sizeAuto"
             />
             <Button
-              label='Gif'
-              variant='transparent'
-              color='whiteColor'
+              label="Gif"
+              variant="transparent"
+              color="whiteColor"
               icon={<FontAwesomeIcon icon={faFile} />}
-              size='sizeAuto'
+              size="sizeAuto"
             />
             <Button
-              label='Event'
-              variant='transparent'
-              color='whiteColor'
+              label="Event"
+              variant="transparent"
+              color="whiteColor"
               icon={<FontAwesomeIcon icon={faCalendar} />}
-              size='sizeAuto'
+              size="sizeAuto"
             />
           </div>
           <Button
-            onClick={createPostText}
-            label='Post'
-            variant='white'
-            color='black'
-            size='smallBtn'
+            onClick={mediaPickerVisible ? createMediaPost : createTextPost}
+            label="Post"
+            variant="white"
+            color="black"
+            size="smallBtn"
           />
         </div>
-
       </div>
     </>
-  )
+  );
 }
 
-export default CreatePost
+export default CreatePost;

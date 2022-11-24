@@ -23,11 +23,13 @@ function Posts({ ...props }) {
   const [liked, setLiked] = useState<boolean>(false);
   const [comments, setComments] = useState<[]>([]);
   const [reactions, setReactions] = useState<{}>({});
+  const [postImg, setPostImg] = useState<string>("");
 
   const v3API = "https://api.us.amity.co/api/v3";
   const v2API = "https://api.us.amity.co/api/v2";
 
   useEffect(() => {
+    props.postImgId && getPostImage();
     getPostComments();
     getPostReactions();
   }, []);
@@ -36,6 +38,36 @@ function Posts({ ...props }) {
   console.log(comments);
   console.log("reactions");
   console.log(reactions);
+  console.log("post img id: ");
+  console.log(props.postImgId);
+
+  async function getPostImage(): Promise<AxiosResponse<any, any>> {
+    console.log("fetching post image url");
+    const tokenResponse = await getToken();
+    const sessionResponse = await getSession(tokenResponse);
+    try {
+      const url = `${v3API}/files/${props.postImgId}/download`;
+      axios.defaults.headers["x-api-key"] =
+        "b0efed533f8df46c18628b1c515e43dd835fd8e6bc366b2c";
+      axios.defaults.headers["Authorization"] =
+        "Bearer " + sessionResponse.accessToken;
+      axios.defaults.headers["Content-Type"] = "image/png";
+      const response = await axios.get<any>(
+        url +
+          `?fileId=${props.postImgId}&size=full&t=${sessionResponse.accessToken}`,
+        {
+          responseType: 'blob'
+        }
+      );
+      console.log("getPostImage response: ");
+      console.log(response);
+
+      setPostImg(response.data);
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
+  }
 
   const addPostComment = (event: React.MouseEvent<HTMLButtonElement>): void => {
     event.preventDefault();
@@ -216,9 +248,13 @@ function Posts({ ...props }) {
         ""
       )}
 
-      {props.postImg ? (
+      {postImg ? (
         <div className={Styles.postImg}>
-          <img src={props.postImg} alt="Post" className={Styles.FullImg} />
+          <img
+            src={URL.createObjectURL(postImg)}
+            alt="Post"
+            className={Styles.FullImg}
+          />
         </div>
       ) : (
         ""
