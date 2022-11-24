@@ -25,75 +25,73 @@ import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { AxiosResponse } from "axios";
-import moment from 'moment';
+import moment from "moment";
 
 const Community = () => {
-    const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState([]);
 
-    useEffect(() => {
-        const fetchPosts = async () => {
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const response = await getToken();
+      console.log(response);
 
+      const response2 = await getSession(response);
+      console.log(response2.accessToken);
 
-            const response = await getToken();
-            console.log(response);
+      try {
+        const url =
+          "https://api.us.amity.co/api/v3/posts?targetId=jeffrey-test2&targetType=user&sortBy=lastUpdated";
+        axios.defaults.headers["x-api-key"] =
+          "b0efed533f8df46c18628b1c515e43dd835fd8e6bc366b2c";
+        axios.defaults.headers["Authorization"] =
+          "Bearer " + response2.accessToken;
 
-            const response2 = await getSession(response);
-            console.log(response2.accessToken);
+        const response = await axios.get<string>(url);
+        console.log("asd");
+        console.log(response.data.posts);
+        setPosts(response.data.posts);
+      } catch (err) {
+        return "";
+      }
+    };
+    fetchPosts();
+  }, []);
 
-            try {
-                const url = "https://api.us.amity.co/api/v3/posts?targetId=jeffrey-test2&targetType=user&sortBy=lastUpdated";
-                axios.defaults.headers['x-api-key'] = 'b0efed533f8df46c18628b1c515e43dd835fd8e6bc366b2c';
-                axios.defaults.headers['Authorization'] = 'Bearer ' + response2.accessToken;
-
-
-
-                const response = await axios.get<string>(url);
-                console.log('asd');
-                console.log(response.data.posts);
-                setPosts(
-                    response.data.posts
-                );
-            } catch (err) {
-                return '';
-            }
-
-
-        };
-        fetchPosts();
-    }, []);
-
-
-    async function getToken(): Promise<string> {
-        try {
-            const url = "https://api.us.amity.co/api/v3/authentication/token?userId=jeffrey-test2";
-            axios.defaults.headers['x-server-key'] = '138fbb2f22e5af367025ee9d6ff02c0d903fd74f560f87b71119197aa125645cd01015cd7b7236193b8fcc7a42a114864a399cd85b55dd2c88d6447055';
-            const response = await axios.get<string>(url);
-            return response.data;
-        } catch (err) {
-            return '';
-        }
+  async function getToken(): Promise<string> {
+    try {
+      const url =
+        "https://api.us.amity.co/api/v3/authentication/token?userId=jeffrey-test2";
+      axios.defaults.headers["x-server-key"] =
+        "138fbb2f22e5af367025ee9d6ff02c0d903fd74f560f87b71119197aa125645cd01015cd7b7236193b8fcc7a42a114864a399cd85b55dd2c88d6447055";
+      const response = await axios.get<string>(url);
+      return response.data;
+    } catch (err) {
+      return "";
     }
+  }
 
-    async function getSession(token: string): Promise<AxiosResponse<any, any>> {
-        //try {
-        const url = "https://api.us.amity.co/api/v3/sessions";
-        axios.defaults.headers['x-api-key'] = 'b0efed533f8df46c18628b1c515e43dd835fd8e6bc366b2c';
-        const requestData = {
-            "userId": "jeffrey-test2",
-            "deviceId": "jeffrey-test2",
+  async function getSession(token: string): Promise<AxiosResponse<any, any>> {
+    //try {
+    const url = "https://api.us.amity.co/api/v3/sessions";
+    axios.defaults.headers["x-api-key"] =
+      "b0efed533f8df46c18628b1c515e43dd835fd8e6bc366b2c";
+    const requestData = {
+      userId: "jeffrey-test2",
+      deviceId: "jeffrey-test2",
 
+      displayName: "jeffrey-test2",
+      authToken: token,
+    };
 
-            "displayName": "jeffrey-test2",
-            "authToken": token
-        };
-
-        const response = await axios.post<AxiosResponse<any, any>>(url, requestData);
-        return response.data;
-        //} catch (err) {
-        //    return '';
-        //}
-    }
-
+    const response = await axios.post<AxiosResponse<any, any>>(
+      url,
+      requestData
+    );
+    return response.data;
+    //} catch (err) {
+    //    return '';
+    //}
+  }
 
   return (
     <>
@@ -134,16 +132,19 @@ const Community = () => {
                 currentUserImg={inst3Img}
                 postText=" I would like to Kudos @Carla, for the #courteousness in every appointment, and deadlines throughout the month of may "
               />
-                {posts.map((p) => (
-                    <Posts postOwnerImg={inst3Img}
-                        postOwner="You"
-                        postTime={moment(p.updatedAt).fromNow()}
-                        reactedUserImg={inst4Img}
-                        commentsCount="0"
-                        shareCount="0"
-                        currentUserImg={inst3Img}
-                        postText={p.data.text} />
-                ))}
+              {posts.map((p) => (
+                <Posts
+                  postOwnerImg={inst3Img}
+                  postOwner="You"
+                  postTime={moment(p.updatedAt).fromNow()}
+                  reactedUserImg={inst4Img}
+                  commentsCount="0"
+                  shareCount="0"
+                  currentUserImg={inst3Img}
+                  postText={p.data.text}
+                  id={p._id}
+                />
+              ))}
             </Col>
           </Row>
         </Col>
