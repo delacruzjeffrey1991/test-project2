@@ -186,6 +186,7 @@ function CreatePost({ variant = "primary" }) {
       );
       return response.data;
     } catch (err) {
+      console.log(err);
       return "";
     }
   }

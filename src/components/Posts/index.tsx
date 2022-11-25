@@ -24,6 +24,8 @@ function Posts({ ...props }) {
   const [comments, setComments] = useState<[]>([]);
   const [reactions, setReactions] = useState<{}>({});
   const [postImg, setPostImg] = useState<string>("");
+  const [adminImg, setAdminImg] = useState();
+  const [userInformation, setUserInformation] = useState<{}>({});
 
   const v3API = "https://api.us.amity.co/api/v3";
   const v2API = "https://api.us.amity.co/api/v2";
@@ -32,6 +34,7 @@ function Posts({ ...props }) {
     props.postImgId && getPostImage();
     getPostComments();
     getPostReactions();
+    setUserInfo();
   }, []);
 
   console.log("comments");
@@ -56,7 +59,7 @@ function Posts({ ...props }) {
         url +
           `?fileId=${props.postImgId}&size=full&t=${sessionResponse.accessToken}`,
         {
-          responseType: 'blob'
+          responseType: "blob",
         }
       );
       console.log("getPostImage response: ");
@@ -66,6 +69,27 @@ function Posts({ ...props }) {
     } catch (err) {
       console.log(err);
       return err;
+    }
+  }
+
+  async function setUserInfo() {
+    const userInfo = getUserInformation();
+    setUserInformation(() => userInfo);
+  }
+
+  async function getUserInformation(): Promise<AxiosResponse<any, any>> {
+    const tokenResponse = await getToken();
+    const sessionResponse = await getSession(tokenResponse);
+    try {
+      axios.defaults.headers["x-api-key"] =
+        "b0efed533f8df46c18628b1c515e43dd835fd8e6bc366b2c";
+      axios.defaults.headers["Authorization"] =
+        "Bearer " + sessionResponse.accessToken;
+      const url = `https://api.us.amity.co/api/v3/users/jeffrey-test2?userId=jeffrey-test2`;
+      const response = await axios.get<any>(url);
+      return response;
+    } catch (err) {
+      console.log(err);
     }
   }
 
@@ -221,7 +245,7 @@ function Posts({ ...props }) {
   }
   //api.us.amity.co/api/v2
 
-  https: return (
+  return (
     <div className={Styles.postsMain}>
       <div className={Styles.postshead}>
         <div className={Styles.postOwner}>

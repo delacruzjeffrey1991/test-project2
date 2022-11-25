@@ -13,6 +13,7 @@ import FriendSuggestion from "../../components/common/FriendSuggestion";
 // import EventImg from '../../../components/common/EventImg'
 import Event from "../../components/common/Event";
 
+import blankProfile from "../../assets/images/blankProfile.jpg";
 import coverImg from "../../assets/images/video5.png";
 import doneImg from "../../assets/images/done.png";
 import inst1Img from "../../assets/images/inst1.png";
@@ -20,21 +21,33 @@ import inst2Img from "../../assets/images/inst2.png";
 import inst3Img from "../../assets/images/inst3.png";
 import inst4Img from "../../assets/images/inst4.png";
 import inst5Img from "../../assets/images/inst5.png";
+import MediaSelector from "src/components/MediaSelector";
 
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { AxiosResponse } from "axios";
 import moment from "moment";
 
 const Community = () => {
   const [posts, setPosts] = useState([]);
+  const [userInformation, setUserInformation] = useState<{}>({});
+  const [avatarFileId, setAvatarFileId] = useState<string>("");
+  const [selectedAvatar, setSelectedAvatar] = useState<[any]>();
+  const avatarPickerRef = useRef();
+
+  console.log("Selected Avatar");
+  console.log(selectedAvatar);
+
+  console.log("User Information:");
+  console.log(userInformation);
 
   useEffect(() => {
     const fetchPosts = async () => {
       const response = await getToken();
       console.log(response);
 
+      console.log("getting session 2: ");
       const response2 = await getSession(response);
       console.log(response2.accessToken);
 
@@ -60,7 +73,115 @@ const Community = () => {
       }
     };
     fetchPosts();
+    setUserInfo();
   }, []);
+
+  useEffect(() => {
+    console.log("New avatar has been selected");
+    if (selectedAvatar) {
+      console.log("Valid picture");
+      changeAvatar();
+    } else {
+      console.log("No picture selected");
+    }
+  }, [selectedAvatar]);
+
+  async function changeAvatar() {
+    console.log("getting token");
+    const tokenResponse = await getToken();
+    console.log(tokenResponse);
+
+    console.log("getting session:");
+    const sessionResponse = await getSession(tokenResponse);
+    console.log("session response:" + sessionResponse);
+    console.log(sessionResponse);
+
+    console.log("Uploading new avatar");
+    const fileUploadResult = await uploadNewAvatar(sessionResponse.accessToken);
+    console.log("New Avatar upload response");
+    console.log(fileUploadResult);
+
+    const url = "https://api.us.amity.co/api/v3/users";
+    axios.defaults.headers["x-api-key"] =
+      "b0efed533f8df46c18628b1c515e43dd835fd8e6bc366b2c";
+    axios.defaults.headers["Authorization"] =
+      "Bearer " + sessionResponse.accessToken;
+
+    const response3 = await axios.put(url, {
+      userId: "jeffrey-test2",
+      displayName: "jeffrey-test2",
+      avatarFileId: fileUploadResult[0].fileId,
+      avatarCustomUrl: fileUploadResult[0].fileUrl,
+      deviceId: "jeffrey-test2",
+    });
+
+    console.log("Avatar change result");
+    console.log(response3);
+  }
+
+  async function setUserInfo() {
+    console.log("User Information: ");
+    const userInformation = await getUserInformation();
+    console.log(userInformation);
+    setUserInformation(() => userInformation);
+  }
+
+  async function getUserInformation(): Promise<AxiosResponse<any, any>> {
+    const tokenResponse = await getToken();
+    const sessionResponse = await getSession(tokenResponse);
+    try {
+      axios.defaults.headers["x-api-key"] =
+        "b0efed533f8df46c18628b1c515e43dd835fd8e6bc366b2c";
+      axios.defaults.headers["Authorization"] =
+        "Bearer " + sessionResponse.accessToken;
+      const url = `https://api.us.amity.co/api/v3/users/jeffrey-test2?userId=jeffrey-test2`;
+      const response = await axios.get<any>(url);
+      return response.data;
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
+  }
+
+  const handleSelectedAvatarChange = (event) => {
+    setSelectedAvatar(() => [null]);
+    setSelectedAvatar(() => [event.target.files[0]]);
+  };
+
+  async function handleChangeAvatarBtn() {
+    console.log("Avatar Change button clicked!");
+    avatarPickerRef.current.click();
+  }
+
+  async function uploadNewAvatar(
+    accessToken: string
+  ): Promise<AxiosResponse<any, any>> {
+    try {
+      axios.defaults.headers["x-api-key"] =
+        "b0efed533f8df46c18628b1c515e43dd835fd8e6bc366b2c";
+      axios.defaults.headers["Authorization"] = "Bearer " + accessToken;
+
+      const formData = new FormData();
+      formData.append("file", selectedAvatar[0]);
+
+      const response3 = await axios.post<AxiosResponse<any, any>>(
+        "https://api.us.amity.co/api/v3/files",
+        formData,
+        {
+          headers: {
+            "content-type": "multipart/form-data",
+          },
+        }
+      );
+
+      console.log("avatar upload response");
+      console.log(response3.data);
+      return response3.data;
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
+  }
 
   async function getToken(): Promise<string> {
     try {
@@ -69,6 +190,9 @@ const Community = () => {
       axios.defaults.headers["x-server-key"] =
         "138fbb2f22e5af367025ee9d6ff02c0d903fd74f560f87b71119197aa125645cd01015cd7b7236193b8fcc7a42a114864a399cd85b55dd2c88d6447055";
       const response = await axios.get<string>(url);
+
+      console.log("token Response");
+      console.log(response);
       return response.data;
     } catch (err) {
       return "";
@@ -76,14 +200,13 @@ const Community = () => {
   }
 
   async function getSession(token: string): Promise<AxiosResponse<any, any>> {
-    //try {
+    // try {
     const url = "https://api.us.amity.co/api/v3/sessions";
     axios.defaults.headers["x-api-key"] =
       "b0efed533f8df46c18628b1c515e43dd835fd8e6bc366b2c";
     const requestData = {
       userId: "jeffrey-test2",
       deviceId: "jeffrey-test2",
-
       displayName: "jeffrey-test2",
       authToken: token,
     };
@@ -93,16 +216,26 @@ const Community = () => {
       requestData
     );
     return response.data;
-    //} catch (err) {
-    //    return '';
-    //}
+    // } catch (err) {
+    //   console.log(err);
+    //   return "";
+    // }
   }
 
   return (
     <>
       <Row>
         <Col sm={10}>
-          <ProfileCover userCoverImg={coverImg} />
+          <ProfileCover
+            userCoverImg={coverImg}
+            handleAvatarChange={handleChangeAvatarBtn}
+          />
+          <div style={{ display: "none" }}>
+            <MediaSelector
+              handleRef={avatarPickerRef}
+              handleAttachedMediaChange={handleSelectedAvatarChange}
+            />
+          </div>
           <Row className={Styles.profileFeed}>
             <Col sm={3}>
               <Recognition />
