@@ -157,7 +157,7 @@ function CreatePost({ variant = "primary" }) {
   async function getToken(): Promise<string> {
     try {
       const url =
-        "https://api.us.amity.co/api/v3/authentication/token?userId=jeffrey-test2";
+        `${v3API}/authentication/token?userId=jeffrey-test2`;
       axios.defaults.headers["x-server-key"] =
         "138fbb2f22e5af367025ee9d6ff02c0d903fd74f560f87b71119197aa125645cd01015cd7b7236193b8fcc7a42a114864a399cd85b55dd2c88d6447055";
       const response = await axios.get<string>(url);
@@ -169,7 +169,7 @@ function CreatePost({ variant = "primary" }) {
 
   async function getSession(token: string): Promise<AxiosResponse<any, any>> {
     try {
-      const url = "https://api.us.amity.co/api/v3/sessions";
+      const url = `${v3API}/sessions`;
       axios.defaults.headers["x-api-key"] =
         "b0efed533f8df46c18628b1c515e43dd835fd8e6bc366b2c";
       const requestData = {
