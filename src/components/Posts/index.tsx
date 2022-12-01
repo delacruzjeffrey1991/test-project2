@@ -1,22 +1,21 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Styles from "./styles.module.scss";
 import IconButton from "../../components/common/IconButton";
 import Button from "../../components/common/Button";
 import Input from "../../components/common/Inputqa";
-import axios from "axios";
-
-import { AxiosResponse } from "axios";
+import axios, { AxiosResponse } from "axios";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faComment,
   faEllipsisV,
   faMoneyBill,
-  faComment,
   faShare,
   faThumbsUp,
 } from "@fortawesome/free-solid-svg-icons";
 import { FaRegPaperPlane } from "react-icons/fa";
+
+import { useAuth } from "../../hooks/form/useAuth";
 
 function Posts({ ...props }) {
   const [commentText, setCommentText] = useState<string>("");
@@ -24,8 +23,15 @@ function Posts({ ...props }) {
   const [comments, setComments] = useState<[]>([]);
   const [reactions, setReactions] = useState<{}>({});
   const [postImg, setPostImg] = useState<string>("");
+  const [postInfo, setPostInfo] = useState<{}>({});
   const [adminImg, setAdminImg] = useState();
   const [userInformation, setUserInformation] = useState<{}>({});
+
+  const { store } = useAuth(null);
+  const { accessToken, xAPIKey, session } = store;
+
+  console.log("Global Auth Store: ");
+  console.log(store);
 
   const v3API = "https://api.us.amity.co/api/v3";
   const v2API = "https://api.us.amity.co/api/v2";
@@ -34,7 +40,7 @@ function Posts({ ...props }) {
     props.postImgId && getPostImage();
     getPostComments();
     getPostReactions();
-    setUserInfo();
+    getPostDetails();
   }, []);
 
   console.log("comments");
@@ -43,24 +49,42 @@ function Posts({ ...props }) {
   console.log(reactions);
   console.log("post img id: ");
   console.log(props.postImgId);
+  console.log("post details");
+  console.log(postInfo);
 
-  async function getPostImage(): Promise<AxiosResponse<any, any>> {
+  const getPostDetails = async (): Promise<any> => {
+    console.log("fetch post details");
+    try {
+      const url = `${v3API}/posts/${props.id}`;
+      const config = {
+        headers: {
+          "x-api-key": xAPIKey,
+          Authorization: "Bearer " + session["accessToken"],
+        },
+      };
+      const response = await axios.get<any>(url, config);
+      console.log("Post " + props.id + " information");
+      console.log(response);
+      setPostInfo(() => response["data"]["posts"][0]);
+    } catch (err) {}
+  };
+
+  const getPostImage = async (): Promise<any> => {
     console.log("fetching post image url");
-    const tokenResponse = await getToken();
-    const sessionResponse = await getSession(tokenResponse);
     try {
       const url = `${v3API}/files/${props.postImgId}/download`;
-      axios.defaults.headers["x-api-key"] =
-        "b0efed533f8df46c18628b1c515e43dd835fd8e6bc366b2c";
-      axios.defaults.headers["Authorization"] =
-        "Bearer " + sessionResponse.accessToken;
-      axios.defaults.headers["Content-Type"] = "image/png";
-      const response = await axios.get<any>(
+      const config = {
+        headers: {
+          "x-api-key": xAPIKey,
+          Authorization: "Bearer " + session["accessToken"],
+          "Content-Type": "image/png",
+        },
+        responseType: "blob",
+      };
+      const response = await axios.get<string>(
         url +
-          `?fileId=${props.postImgId}&size=full&t=${sessionResponse.accessToken}`,
-        {
-          responseType: "blob",
-        }
+          `?fileId=${props.postImgId}&size=full&t=${session["accessToken"]}`,
+        config
       );
       console.log("getPostImage response: ");
       console.log(response);
@@ -68,107 +92,88 @@ function Posts({ ...props }) {
       setPostImg(response.data);
     } catch (err) {
       console.log(err);
-      return err;
+      return "";
     }
-  }
-
-  async function setUserInfo() {
-    const userInfo = getUserInformation();
-    setUserInformation(() => userInfo);
-  }
-
-  async function getUserInformation(): Promise<AxiosResponse<any, any>> {
-    const tokenResponse = await getToken();
-    const sessionResponse = await getSession(tokenResponse);
-    try {
-      axios.defaults.headers["x-api-key"] =
-        "b0efed533f8df46c18628b1c515e43dd835fd8e6bc366b2c";
-      axios.defaults.headers["Authorization"] =
-        "Bearer " + sessionResponse.accessToken;
-      const url = `https://api.us.amity.co/api/v3/users/jeffrey-test2?userId=jeffrey-test2`;
-      const response = await axios.get<any>(url);
-      return response;
-    } catch (err) {
-      console.log(err);
-    }
-  }
+  };
 
   const addPostComment = (event: React.MouseEvent<HTMLButtonElement>): void => {
-    event.preventDefault();
-
     console.log("btn: send comment clicked!");
     console.log("comment: " + commentText);
 
     (async () => {
-      const tokenResponse = await getToken();
-      console.log(`token: ${tokenResponse}`);
-
-      const sessionResponse = await getSession(tokenResponse);
-      console.log(`accessToken: ${sessionResponse.accessToken}`);
-      console.log("session");
-      console.log(sessionResponse);
-
-      const commentResponse = await createPostComment(
-        sessionResponse.accessToken
-      );
-      getPostComments();
+      const commentResponse = await createPostComment();
+      await getPostComments();
     })();
   };
 
-  async function getPostComments(): Promise<any> {
-    const tokenResponse = await getToken();
-    const sessionResponse = await getSession(tokenResponse);
+  const getPostComments = async (): Promise<any> => {
     try {
       const url = `${v3API}/comments`;
-      axios.defaults.headers["x-api-key"] =
-        "b0efed533f8df46c18628b1c515e43dd835fd8e6bc366b2c";
-      axios.defaults.headers["Authorization"] =
-        "Bearer " + sessionResponse.accessToken;
-      const response2 = await axios.get<any>(url + `?referenceId=${props.id}`);
-      console.log(response2);
-      // return response2.data.comments;
-      setComments(response2.data.comments);
+      const config = {
+        headers: {
+          "x-api-key": xAPIKey,
+          Authorization: "Bearer " + session["accessToken"],
+        },
+        params: {
+          referenceId: props.id,
+        },
+      };
+      const response = await axios.get<any>(url, config);
+      setComments(() => response.data.comments);
     } catch (err) {
       console.log(err);
       return "";
     }
-  }
+  };
 
-  async function createPostComment(accessToken: string): Promise<void> {
+  const createPostComment = async (): Promise<void> => {
     const url = `${v3API}/comments`;
-    axios.defaults.headers["x-api-key"] =
-      "b0efed533f8df46c18628b1c515e43dd835fd8e6bc366b2c";
-    axios.defaults.headers["Authorization"] = "Bearer " + accessToken;
+    // const tokenResponse = await getToken();
+    // const sessionResponse = await getSession(tokenResponse);
+    const config = {
+      headers: {
+        "x-api-key": xAPIKey,
+        Authorization: "Bearer " + session["accessToken"],
+      },
+    };
     const now = new Date();
-    const response = await axios.post<AxiosResponse<any, any>>(url, {
+    const requestData = {
       referenceType: "content",
       referenceId: props.id,
       data: {
         text: commentText,
       },
       metadata: {},
-      createdAt: now.toJSON(),
-    });
-    console.log("response: ");
-    console.log(response);
-    getPostComments(props.id);
-  }
+      createdAt: now.toJSON().toString(),
+    };
 
-  async function likePost(): Promise<any> {
-    const tokenResponse = await getToken();
-    const sessionResponse = await getSession(tokenResponse);
+    const response = await axios.post<AxiosResponse<any, any>>(
+      url,
+      requestData,
+      config
+    );
+    getPostComments();
+  };
+
+  const likePost = async (): Promise<any> => {
     const url = `${v2API}/reactions`;
-    axios.defaults.headers["x-api-key"] =
-      "b0efed533f8df46c18628b1c515e43dd835fd8e6bc366b2c";
-    axios.defaults.headers["Authorization"] =
-      "Bearer " + sessionResponse.accessToken;
+    const config = {
+      headers: {
+        "x-api-key": xAPIKey,
+        Authorization: "Bearer " + session["accessToken"],
+      },
+    };
 
     try {
-      const response = await axios.post<AxiosResponse<any, any>>(url, {
-        referenceType: "post",
-        referenceId: props.id,
-        reactionName: "like",
-      });
+      const response = await axios.post<AxiosResponse<any, any>>(
+        url,
+        {
+          referenceType: "post",
+          referenceId: props.id,
+          reactionName: "like",
+        },
+        config
+      );
 
       console.log("like response: ");
       console.log(response);
@@ -180,70 +185,31 @@ function Posts({ ...props }) {
       console.log(err);
       return "";
     }
-  }
+  };
 
-  async function getPostReactions(): Promise<any> {
-    const tokenResponse = await getToken();
-    const sessionResponse = await getSession(tokenResponse);
-    const url = `${v2API}/reactions`;
-    axios.defaults.headers["x-api-key"] =
-      "b0efed533f8df46c18628b1c515e43dd835fd8e6bc366b2c";
-    axios.defaults.headers["Authorization"] =
-      "Bearer " + sessionResponse.accessToken;
-
+  const getPostReactions = async (): Promise<any> => {
     try {
+      const url = `${v2API}/reactions`;
+      const config = {
+        headers: {
+          "x-api-key": xAPIKey,
+          Authorization: "Bearer " + session["accessToken"],
+        },
+      };
+
       const response = await axios.get<AxiosResponse<any, any>>(
-        url + `?referenceType=post&referenceId=${props.id}`
+        url + `?referenceType=post&referenceId=${props.id}`,
+        config
       );
 
-      console.log("postReactions response:");
-      console.log(response);
-
-      setReactions(() => response.data.results.reactions);
+      setReactions(() => response.data["results"].reactions);
 
       return response.data;
     } catch (err) {
       console.log(err);
       return "";
     }
-  }
-
-  async function getToken(): Promise<string> {
-    try {
-      const url = `${v3API}/authentication/token?userId=jeffrey-test2`;
-      axios.defaults.headers["x-server-key"] =
-        "138fbb2f22e5af367025ee9d6ff02c0d903fd74f560f87b71119197aa125645cd01015cd7b7236193b8fcc7a42a114864a399cd85b55dd2c88d6447055";
-      const response = await axios.get<string>(url);
-      return response.data;
-    } catch (err) {
-      return "";
-    }
-  }
-
-  async function getSession(token: string): Promise<AxiosResponse<any, any>> {
-    //try {
-    const url = `${v3API}/sessions`;
-    axios.defaults.headers["x-api-key"] =
-      "b0efed533f8df46c18628b1c515e43dd835fd8e6bc366b2c";
-    const requestData = {
-      userId: "jeffrey-test2",
-      deviceId: "jeffrey-test2",
-
-      displayName: "jeffrey-test2",
-      authToken: token,
-    };
-
-    const response = await axios.post<AxiosResponse<any, any>>(
-      url,
-      requestData
-    );
-    return response.data;
-
-    //} catch (err) {
-    //    return '';
-    //}
-  }
-  //api.us.amity.co/api/v2
+  };
 
   return (
     <div className={Styles.postsMain}>
@@ -251,7 +217,11 @@ function Posts({ ...props }) {
         <div className={Styles.postOwner}>
           <div className={Styles.userImg}>
             <img
-              src={props.postOwnerImg}
+              src={
+                session["users"][0]["avatarCustomUrl"]
+                  ? session["users"][0]["avatarCustomUrl"]
+                  : props.postOwnerImg
+              }
               alt="profile"
               className={Styles.FullImg}
             />
@@ -371,15 +341,24 @@ function Posts({ ...props }) {
               <div className={Styles.commentOwner}>
                 <div className={Styles.commentUserImg}>
                   <img
-                    src={props.currentUserImg}
+                    src={
+                      c["userId"] === session["users"][0]["userId"]
+                        ? session["users"][0]["avatarCustomUrl"]
+                        : props.currentUserImg
+                    }
                     alt="CurrentUser"
                     className={Styles.FullImg}
                   />
                 </div>
                 <div>
-                  <h5> {props.postOwner} </h5>
+                  <h5>
+                    {" "}
+                    {c["userId"] === session["users"][0]["userId"]
+                      ? session["users"][0]["displayName"]
+                      : props.postOwner}{" "}
+                  </h5>
 
-                  <p className={Styles.comment}>{c.data.text}</p>
+                  <p className={Styles.comment}>{c["data"]["text"]}</p>
                 </div>
               </div>
             </div>
@@ -389,7 +368,11 @@ function Posts({ ...props }) {
       <div className={`${Styles.postCommentBox} ${Styles.dflexSpaceBt}`}>
         <div className={Styles.commentUserImg}>
           <img
-            src={props.currentUserImg}
+            src={
+              session["users"][0]["avatarCustomUrl"]
+                ? session["users"][0]["avatarCustomUrl"]
+                : props.postOwnerImg
+            }
             alt="CurrentUser"
             className={Styles.FullImg}
           />

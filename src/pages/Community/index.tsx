@@ -10,7 +10,6 @@ import Posts from "../../components/Posts";
 import ProfileCover from "../../components/ProfileCover";
 import Recognition from "../../components/Recognition";
 import FriendSuggestion from "../../components/common/FriendSuggestion";
-// import EventImg from '../../../components/common/EventImg'
 import Event from "../../components/common/Event";
 
 import blankProfile from "../../assets/images/blankProfile.jpg";
@@ -29,52 +28,44 @@ import axios from "axios";
 import { AxiosResponse } from "axios";
 import moment from "moment";
 
+import { useAuth } from "../../hooks/form/useAuth";
+
 const Community = () => {
   const [posts, setPosts] = useState([]);
-  const [userInformation, setUserInformation] = useState<{}>({});
-  const [avatarFileId, setAvatarFileId] = useState<string>("");
+  const [reload, setReload] = useState(0);
   const [selectedAvatar, setSelectedAvatar] = useState<[any]>();
   const avatarPickerRef = useRef();
+
+  const v3API = "https://api.us.amity.co/api/v3";
+
+  const { store } = useAuth(null);
+  const { xAPIKey, session } = store;
+
+  console.log("Posts");
+  console.log(posts);
 
   console.log("Selected Avatar");
   console.log(selectedAvatar);
 
-  console.log("User Information:");
-  console.log(userInformation);
-
   useEffect(() => {
     const fetchPosts = async () => {
-      const response = await getToken();
-      console.log(response);
-
-      console.log("getting session 2: ");
-      const response2 = await getSession(response);
-      console.log(response2.accessToken);
-
       try {
-        const url =
-          "https://api.us.amity.co/api/v3/posts?targetId=jeffrey-test2&targetType=user&sortBy=lastUpdated";
-        axios.defaults.headers["x-api-key"] =
-          "b0efed533f8df46c18628b1c515e43dd835fd8e6bc366b2c";
+        const url = `${v3API}/posts?targetId=${session["users"][0]["userId"]}&targetType=user&sortBy=lastUpdated`;
+        axios.defaults.headers["x-api-key"] = xAPIKey;
         axios.defaults.headers["Authorization"] =
-          "Bearer " + response2.accessToken;
+          "Bearer " + session["accessToken"];
 
         const response = await axios.get<string>(url);
-        console.log("asd");
 
         console.log("fetchPosts data.posts");
         console.log(response.data.posts);
-
-        console.log("fetchPosts data");
-        console.log(response.data);
-        setPosts(response.data.posts);
+        setPosts(() => response.data.posts);
       } catch (err) {
         return "";
       }
     };
     fetchPosts();
-    setUserInfo();
-  }, []);
+  }, [reload]);
 
   useEffect(() => {
     console.log("New avatar has been selected");
@@ -86,86 +77,53 @@ const Community = () => {
     }
   }, [selectedAvatar]);
 
-  async function changeAvatar() {
-    console.log("getting token");
-    const tokenResponse = await getToken();
-    console.log(tokenResponse);
-
-    console.log("getting session:");
-    const sessionResponse = await getSession(tokenResponse);
-    console.log("session response:" + sessionResponse);
-    console.log(sessionResponse);
-
+  const changeAvatar = async () => {
     console.log("Uploading new avatar");
-    const fileUploadResult = await uploadNewAvatar(sessionResponse.accessToken);
+    const fileUploadResult = await uploadNewAvatar(); // upload picture to Amity
     console.log("New Avatar upload response");
     console.log(fileUploadResult);
 
-    const url = "https://api.us.amity.co/api/v3/users";
-    axios.defaults.headers["x-api-key"] =
-      "b0efed533f8df46c18628b1c515e43dd835fd8e6bc366b2c";
-    axios.defaults.headers["Authorization"] =
-      "Bearer " + sessionResponse.accessToken;
-
-    const response3 = await axios.put(url, {
-      userId: "jeffrey-test2",
-      displayName: "jeffrey-test2",
+    const url = `${v3API}/users`;
+    const requestData = {
+      ...session["users"][0],
       avatarFileId: fileUploadResult[0].fileId,
       avatarCustomUrl: fileUploadResult[0].fileUrl,
-      deviceId: "jeffrey-test2",
-    });
+    };
+    const config = {
+      headers: {
+        Authorization: "Bearer " + session["accessToken"],
+      },
+    };
+
+    const response3 = await axios.put(url, requestData, config);
 
     console.log("Avatar change result");
     console.log(response3);
-  }
 
-  async function setUserInfo() {
-    console.log("User Information: ");
-    const userInformation = await getUserInformation();
-    console.log(userInformation);
-    setUserInformation(() => userInformation);
-  }
-
-  async function getUserInformation(): Promise<AxiosResponse<any, any>> {
-    const tokenResponse = await getToken();
-    const sessionResponse = await getSession(tokenResponse);
-    try {
-      axios.defaults.headers["x-api-key"] =
-        "b0efed533f8df46c18628b1c515e43dd835fd8e6bc366b2c";
-      axios.defaults.headers["Authorization"] =
-        "Bearer " + sessionResponse.accessToken;
-      const url = `https://api.us.amity.co/api/v3/users/jeffrey-test2?userId=jeffrey-test2`;
-      const response = await axios.get<any>(url);
-      return response.data;
-    } catch (err) {
-      console.log(err);
-      return err;
-    }
-  }
+    setReload((prevCount) => prevCount + 1);
+  };
 
   const handleSelectedAvatarChange = (event) => {
     setSelectedAvatar(() => [null]);
     setSelectedAvatar(() => [event.target.files[0]]);
   };
 
-  async function handleChangeAvatarBtn() {
+  const handleChangeAvatarBtn = async () => {
     console.log("Avatar Change button clicked!");
     avatarPickerRef.current.click();
-  }
+  };
 
-  async function uploadNewAvatar(
-    accessToken: string
-  ): Promise<AxiosResponse<any, any>> {
+  const uploadNewAvatar = async (): Promise<AxiosResponse<any, any>> => {
     try {
-      axios.defaults.headers["x-api-key"] =
-        "b0efed533f8df46c18628b1c515e43dd835fd8e6bc366b2c";
-      axios.defaults.headers["Authorization"] = "Bearer " + accessToken;
+      axios.defaults.headers["x-api-key"] = xAPIKey;
+      axios.defaults.headers["Authorization"] =
+        "Bearer " + session["accessToken"];
 
       const formData = new FormData();
       formData.append("file", selectedAvatar[0]);
 
       const response3 = await axios.post<AxiosResponse<any, any>>(
-        "https://api.us.amity.co/api/v3/files",
+        `${v3API}/files`,
         formData,
         {
           headers: {
@@ -181,46 +139,7 @@ const Community = () => {
       console.log(err);
       return err;
     }
-  }
-
-  async function getToken(): Promise<string> {
-    try {
-      const url =
-        "https://api.us.amity.co/api/v3/authentication/token?userId=jeffrey-test2";
-      axios.defaults.headers["x-server-key"] =
-        "138fbb2f22e5af367025ee9d6ff02c0d903fd74f560f87b71119197aa125645cd01015cd7b7236193b8fcc7a42a114864a399cd85b55dd2c88d6447055";
-      const response = await axios.get<string>(url);
-
-      console.log("token Response");
-      console.log(response);
-      return response.data;
-    } catch (err) {
-      return "";
-    }
-  }
-
-  async function getSession(token: string): Promise<AxiosResponse<any, any>> {
-    // try {
-    const url = "https://api.us.amity.co/api/v3/sessions";
-    axios.defaults.headers["x-api-key"] =
-      "b0efed533f8df46c18628b1c515e43dd835fd8e6bc366b2c";
-    const requestData = {
-      userId: "jeffrey-test2",
-      deviceId: "jeffrey-test2",
-      displayName: "jeffrey-test2",
-      authToken: token,
-    };
-
-    const response = await axios.post<AxiosResponse<any, any>>(
-      url,
-      requestData
-    );
-    return response.data;
-    // } catch (err) {
-    //   console.log(err);
-    //   return "";
-    // }
-  }
+  };
 
   return (
     <>
@@ -243,8 +162,8 @@ const Community = () => {
             </Col>
             <Col sm={1}></Col>
             <Col sm={8}>
-              <CreatePost variant="primary" />
-              <Posts
+              <CreatePost variant="primary" setPosts={setPosts} />
+              {/* <Posts
                 postOwnerImg={inst3Img}
                 postOwner="You"
                 postTime="Just Now"
@@ -269,7 +188,7 @@ const Community = () => {
                 shareCount="0"
                 currentUserImg={inst3Img}
                 postText=" I would like to Kudos @Carla, for the #courteousness in every appointment, and deadlines throughout the month of may "
-              />
+              /> */}
               {posts.map((p) => {
                 if (Array.isArray(p.data.images)) {
                   return (

@@ -1,13 +1,16 @@
 import React from "react";
-import {Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendar, faBell } from "@fortawesome/free-solid-svg-icons";
 import Styles from "./styles.module.scss";
 
-import profileImage from '../../assets/images/admin-img.png';
+import profileImage from "../../assets/images/admin-img.png";
+import { useAuth } from "src/hooks/form/useAuth";
 
-function Header(props:any) {
+function Header(props: any) {
+  const { store } = useAuth(null);
+  const { session } = store;
   return (
     <div className={Styles.headerMain}>
       <ul className="d-flex align-items-center justify-content-end">
@@ -20,13 +23,17 @@ function Header(props:any) {
           <Link to="/user/notification" className={Styles.iconHead}>
             <FontAwesomeIcon icon={faBell} />
             <span className={Styles.notfCount}>
-                <span>2</span>
+              <span>2</span>
             </span>
           </Link>
         </li>
         <li className={Styles.profileImg} onClick={props.onClick}>
           <img
-            src={profileImage}
+            src={
+              session["users"][0]["avatarCustomUrl"]
+                ? session["users"][0]["avatarCustomUrl"]
+                : profileImage
+            }
             alt="Profile Image"
           />
         </li>

@@ -16,16 +16,24 @@ import axios from "axios";
 import { AxiosResponse } from "axios";
 import MediaSelector from "../MediaSelector";
 
-function CreatePost({ variant = "primary" }) {
+import { useAuth } from "../../hooks/form/useAuth";
+
+function CreatePost({ variant = "primary", setPosts }) {
   const [postText, setPostText] = useState<string>("");
   const [selectedMedia, setSelectedMedia] = useState<[any]>();
   const [mediaPickerVisible, setMediaPickerVisible] = useState<boolean>(false);
-
+  const [reload, setReload] = useState(0);
   const v3API = "https://api.us.amity.co/api/v3";
+
+  const { store } = useAuth(null);
+  const { xAPIKey, session } = store;
 
   const updatePostText = (name: string): void => {
     setPostText(name);
   };
+
+  console.log("setPosts");
+  console.log(setPosts);
 
   const handleAttachMedia = (event) => {
     event.preventDefault();
@@ -42,13 +50,11 @@ function CreatePost({ variant = "primary" }) {
   console.log(selectedMedia);
   console.log(typeof selectedMedia);
 
-  async function uploadAttachedMedia(
-    accessToken: string
-  ): Promise<AxiosResponse<any, any>> {
+  const uploadAttachedMedia = async (): Promise<AxiosResponse<any, any>> => {
     try {
-      axios.defaults.headers["x-api-key"] =
-        "b0efed533f8df46c18628b1c515e43dd835fd8e6bc366b2c";
-      axios.defaults.headers["Authorization"] = "Bearer " + accessToken;
+      axios.defaults.headers["x-api-key"] = xAPIKey;
+      axios.defaults.headers["Authorization"] =
+        "Bearer " + session["accessToken"];
 
       const formData = new FormData();
       formData.append("file", selectedMedia[0]);
@@ -67,7 +73,7 @@ function CreatePost({ variant = "primary" }) {
       console.log(err);
       return err;
     }
-  }
+  };
 
   const createMediaPost = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -77,14 +83,7 @@ function CreatePost({ variant = "primary" }) {
     console.log(postText);
 
     (async () => {
-      const response = await getToken();
-      console.log(response);
-
-      const response2 = await getSession(response);
-      console.log(response2);
-
-      // upload media and get the url
-      const fileUploadResult = await uploadAttachedMedia(response2.accessToken);
+      const fileUploadResult = await uploadAttachedMedia();
       console.log("Media upload response");
       console.log(fileUploadResult);
 
@@ -96,9 +95,9 @@ function CreatePost({ variant = "primary" }) {
         },
         dataType: "upstra.customtype",
         targetType: "user",
-        targetId: "jeffrey-test2",
+        targetId: session["users"][0]["userId"],
         metadata: {},
-        postId: now + "jeffrey-test2",
+        postId: now + session["users"][0]["userId"],
         tags: ["string"],
         createdAt: now.toJSON(),
       };
@@ -107,7 +106,10 @@ function CreatePost({ variant = "primary" }) {
       console.log("Media Post result: ");
       console.log(response3);
 
-      window.location.reload();
+      console.log("Posts");
+
+      setReload((prevCount) => prevCount + 1);
+      // window.location.reload();
     })();
   };
 
@@ -116,23 +118,18 @@ function CreatePost({ variant = "primary" }) {
     console.log(postText);
 
     (async () => {
-      const response = await getToken();
-      console.log(response);
-
-      const response2 = await getSession(response);
-      console.log(response2.accessToken);
-
-      const response3 = await createPost(response2.accessToken);
+      const response3 = await createPost();
       console.log(response3);
-      window.location.reload();
+      // window.location.reload();
+      setReload((prevCount) => prevCount + 1);
     })();
   };
 
-  async function createPost(accessToken: string): Promise<string> {
+  const createPost = async (): Promise<string> => {
     try {
-      axios.defaults.headers["x-api-key"] =
-        "b0efed533f8df46c18628b1c515e43dd835fd8e6bc366b2c";
-      axios.defaults.headers["Authorization"] = "Bearer " + accessToken;
+      axios.defaults.headers["x-api-key"] = xAPIKey;
+      axios.defaults.headers["Authorization"] =
+        "Bearer " + session["accessToken"];
       const now = new Date();
       const requestData = {
         data: {
@@ -140,56 +137,23 @@ function CreatePost({ variant = "primary" }) {
         },
         dataType: "upstra.customtype",
         targetType: "user",
-        targetId: "jeffrey-test2",
+        targetId: session["users"][0]["userId"],
         metadata: {},
-        postId: now + "jeffrey-test2",
+        postId: now + session["users"][0]["userId"],
         tags: ["string"],
         createdAt: now.toJSON(),
       };
 
-      const response = await axios.post<string>(v3API + "/posts", requestData);
+      const response = await axios.post<any>(v3API + "/posts", requestData);
+      console.log("createPost response");
+      console.log(response);
       return response.data;
-    } catch (err) {
-      return "";
-    }
-  }
-
-  async function getToken(): Promise<string> {
-    try {
-      const url =
-        `${v3API}/authentication/token?userId=jeffrey-test2`;
-      axios.defaults.headers["x-server-key"] =
-        "138fbb2f22e5af367025ee9d6ff02c0d903fd74f560f87b71119197aa125645cd01015cd7b7236193b8fcc7a42a114864a399cd85b55dd2c88d6447055";
-      const response = await axios.get<string>(url);
-      return response.data;
-    } catch (err) {
-      return "";
-    }
-  }
-
-  async function getSession(token: string): Promise<AxiosResponse<any, any>> {
-    try {
-      const url = `${v3API}/sessions`;
-      axios.defaults.headers["x-api-key"] =
-        "b0efed533f8df46c18628b1c515e43dd835fd8e6bc366b2c";
-      const requestData = {
-        userId: "jeffrey-test2",
-        deviceId: "jeffrey-test2",
-
-        displayName: "jeffrey-test2",
-        authToken: token,
-      };
-
-      const response = await axios.post<AxiosResponse<any, any>>(
-        url,
-        requestData
-      );
-      return response.data;
+      // return "";
     } catch (err) {
       console.log(err);
       return "";
     }
-  }
+  };
 
   return (
     <>

@@ -10,8 +10,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShare, faPencil } from "@fortawesome/free-solid-svg-icons";
 
 import { FaHamburger, FaMapMarkerAlt, FaPen } from "react-icons/fa";
+import { useAuth } from "../../hooks/form/useAuth";
 
 function ProfileCover(props: any) {
+  const { store } = useAuth(null);
+  const { xAPIKey, session } = store;
+
   return (
     <div className={Styles.coverMain}>
       <div className={Styles.coverImg}>
@@ -20,8 +24,8 @@ function ProfileCover(props: any) {
       <div className={Styles.userInfoMain}>
         <BasicInfo
           handleAvatarChange={props.handleAvatarChange}
-          userImg={adminImg}
-          userName="John Doe"
+          userImg={session["users"][0]["avatarCustomUrl"]}
+          userName={session["users"][0]["displayName"]}
           designation="Manager"
           OpenTo="Open to Mentorship"
         />

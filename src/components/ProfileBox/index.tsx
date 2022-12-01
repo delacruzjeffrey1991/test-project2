@@ -13,8 +13,8 @@ import Button from "../common/Button";
 import { useAuth } from "src/hooks/form/useAuth";
 
 function ProfileBox({ show = false, ...props }) {
-
-  const { userLogout } = useAuth(null)
+  const { userLogout, store } = useAuth(null);
+  const { session } = store;
 
   const profileLinks = [
     {
@@ -54,12 +54,21 @@ function ProfileBox({ show = false, ...props }) {
       <div className={Styles.userbox}>
         <div className={Styles.userImgbox}>
           <Link to="/user/brand-culture-startegy">
-            <img src={props.userImg} alt="user" />
+            <img
+              src={
+                session["users"][0]["avatarCustomUrl"]
+                  ? session["users"][0]["avatarCustomUrl"]
+                  : props.userImg
+              }
+              alt="user"
+            />
           </Link>
         </div>
         <div className={Styles.userName}>
           <Link to="/">
-            <h2>John Doe {props.userName} </h2>
+            <h2>
+              {session["users"][0]["displayName"]} {props.userName}{" "}
+            </h2>
           </Link>
           <p>IMC-00123 {props.userid} </p>
         </div>
@@ -93,7 +102,12 @@ function ProfileBox({ show = false, ...props }) {
             );
           })}
           <li className={Styles.logoutBtn}>
-            <Button onClick={userLogout} label="Logout" variant="filled" color="secondary" />
+            <Button
+              onClick={userLogout}
+              label="Logout"
+              variant="filled"
+              color="secondary"
+            />
           </li>
         </ul>
       </div>

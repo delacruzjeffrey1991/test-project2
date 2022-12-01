@@ -31,9 +31,12 @@ const Signup = () => {
   const navigate = useNavigate();
 
   const onSubmit = (body: object) => {
+    console.log("registration body");
+    console.log(body);
     let apiData = {
       ...body,
       role: role?.toUpperCase(),
+      // userId: body["email"],
     };
 
     userRegister(apiData, role).then(() => {
@@ -124,7 +127,7 @@ const Signup = () => {
                   size="large"
                 />
               )} */}
-              
+
               <p className={Styles.rememText}>Forget password</p>
               <p className={Styles.rememText}>
                 Already have an account?

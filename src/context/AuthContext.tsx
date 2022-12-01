@@ -94,6 +94,7 @@ const AuthProvider = ({ children }: Props) => {
             //   }
         };
         initAuth();
+        console.log("Initializing auth");
     }, []);
 
     const handleLogin = (
@@ -140,7 +141,7 @@ const AuthProvider = ({ children }: Props) => {
         window.localStorage.removeItem("userData");
         window.localStorage.removeItem(authConfig.storageTokenKeyName);
         window.localStorage.removeItem(authConfig.refreshTokenKeyName);
-        router('/login')
+        // router('/login')
     };
 
     // const handleRegister = (
