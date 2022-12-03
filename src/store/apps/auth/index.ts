@@ -6,12 +6,10 @@ import "react-toastify/dist/ReactToastify.css";
 import cookies from "src/utils/cookies";
 import AuthServices from "../../../Services/auth.service";
 import ProfileServices from "../../../Services/profile.service";
-import { getAuthToken, getSession } from "src/utils/auth";
 import { xAPIKey } from "./constants";
 
 // ** Types Imports
 import { IAuth } from "../../../types/auth";
-import axios from "axios";
 
 interface InitialState {
   auths: IAuth[] | [];
@@ -57,7 +55,7 @@ export const loginAction = createAsyncThunk(
   async (data: any, { getState, dispatch }: Redux) => {
     dispatch(slice.actions.handleStatus("pending"));
     try {
-      const response = await AuthServices.login(data);
+      let response = await AuthServices.login(data);
       const sessionResponse = await AuthServices.session(
         data.email,
         data.email
