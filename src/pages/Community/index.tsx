@@ -1,33 +1,29 @@
-import { Row, Col, Container } from "react-bootstrap";
-import Styles from "./index.module.scss";
+import { Col, Container, Row } from "react-bootstrap";
+import { useEffect, useRef, useState } from "react";
 
+import { AxiosResponse } from "axios";
+import CreatePost from "../../components/CreatePost";
+import Event from "../../components/common/Event";
+import FriendSuggestion from "../../components/common/FriendSuggestion";
 import Group from "../../components/common/Group";
 import Heading from "../../components/common/Heading";
-
-import CreatePost from "../../components/CreatePost";
+import MediaSelector from "src/components/MediaSelector";
 import Mentorship from "../../components/Mentorship";
 import Posts from "../../components/Posts";
 import ProfileCover from "../../components/ProfileCover";
 import Recognition from "../../components/Recognition";
-import FriendSuggestion from "../../components/common/FriendSuggestion";
-import Event from "../../components/common/Event";
-
+import Styles from "./index.module.scss";
+import axios from "axios";
 import blankProfile from "../../assets/images/blankProfile.jpg";
 import coverImg from "../../assets/images/video5.png";
 import doneImg from "../../assets/images/done.png";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import inst1Img from "../../assets/images/inst1.png";
 import inst2Img from "../../assets/images/inst2.png";
 import inst3Img from "../../assets/images/inst3.png";
 import inst4Img from "../../assets/images/inst4.png";
 import inst5Img from "../../assets/images/inst5.png";
-import MediaSelector from "src/components/MediaSelector";
-
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useRef, useState } from "react";
-import axios from "axios";
-import { AxiosResponse } from "axios";
 import moment from "moment";
-
 import { useAuth } from "../../hooks/form/useAuth";
 
 const Community = () => {
@@ -48,24 +44,25 @@ const Community = () => {
   console.log(selectedAvatar);
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const url = `${v3API}/posts?targetId=${session["users"][0]["userId"]}&targetType=user&sortBy=lastUpdated`;
-        axios.defaults.headers["x-api-key"] = xAPIKey;
-        axios.defaults.headers["Authorization"] =
-          "Bearer " + session["accessToken"];
-
-        const response = await axios.get<string>(url);
-
-        console.log("fetchPosts data.posts");
-        console.log(response.data.posts);
-        setPosts(() => response.data.posts);
-      } catch (err) {
-        return "";
-      }
-    };
     fetchPosts();
   }, [reload]);
+
+  const fetchPosts = async () => {
+    try {
+      const url = `${v3API}/posts?targetId=${session["users"][0]["userId"]}&targetType=user&sortBy=lastUpdated`;
+      axios.defaults.headers["x-api-key"] = xAPIKey;
+      axios.defaults.headers["Authorization"] =
+        "Bearer " + session["accessToken"];
+
+      const response = await axios.get<string>(url);
+
+      console.log("fetchPosts data.posts");
+      console.log(response.data.posts);
+      setPosts(() => response.data.posts);
+    } catch (err) {
+      return "";
+    }
+  };
 
   useEffect(() => {
     console.log("New avatar has been selected");
@@ -141,6 +138,9 @@ const Community = () => {
     }
   };
 
+  console.log("Posts");
+  console.log(posts);
+
   return (
     <>
       <Row>
@@ -162,7 +162,11 @@ const Community = () => {
             </Col>
             <Col sm={1}></Col>
             <Col sm={8}>
-              <CreatePost variant="primary" setPosts={setPosts} />
+              <CreatePost
+                variant="primary"
+                setPosts={setPosts}
+                fetchPosts={fetchPosts}
+              />
               {/* <Posts
                 postOwnerImg={inst3Img}
                 postOwner="You"
@@ -203,6 +207,7 @@ const Community = () => {
                       currentUserImg={inst3Img}
                       postText={p.data.text}
                       id={p._id}
+                      postId={p.postId}
                     />
                   );
                 } else {
@@ -217,6 +222,7 @@ const Community = () => {
                       currentUserImg={inst3Img}
                       postText={p.data.text}
                       id={p._id}
+                      postId={p.postId}
                     />
                   );
                 }

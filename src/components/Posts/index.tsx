@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Styles from "./styles.module.scss";
-import IconButton from "../../components/common/IconButton";
-import Button from "../../components/common/Button";
-import Input from "../../components/common/Inputqa";
 import axios, { AxiosResponse } from "axios";
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faComment,
   faEllipsisV,
@@ -13,8 +7,13 @@ import {
   faShare,
   faThumbsUp,
 } from "@fortawesome/free-solid-svg-icons";
-import { FaRegPaperPlane } from "react-icons/fa";
 
+import Button from "../../components/common/Button";
+import { FaRegPaperPlane } from "react-icons/fa";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import IconButton from "../../components/common/IconButton";
+import Input from "../../components/common/Inputqa";
+import Styles from "./styles.module.scss";
 import { useAuth } from "../../hooks/form/useAuth";
 
 function Posts({ ...props }) {
@@ -43,6 +42,8 @@ function Posts({ ...props }) {
     getPostDetails();
   }, []);
 
+  console.log("post id");
+  console.log(props.id);
   console.log("comments");
   console.log(comments);
   console.log("reactions");
@@ -102,6 +103,7 @@ function Posts({ ...props }) {
 
     (async () => {
       const commentResponse = await createPostComment();
+      setCommentText(() => "");
       await getPostComments();
     })();
   };
@@ -128,8 +130,6 @@ function Posts({ ...props }) {
 
   const createPostComment = async (): Promise<void> => {
     const url = `${v3API}/comments`;
-    // const tokenResponse = await getToken();
-    // const sessionResponse = await getSession(tokenResponse);
     const config = {
       headers: {
         "x-api-key": xAPIKey,
@@ -169,7 +169,7 @@ function Posts({ ...props }) {
         url,
         {
           referenceType: "post",
-          referenceId: props.id,
+          referenceId: props.postId,
           reactionName: "like",
         },
         config
@@ -179,6 +179,7 @@ function Posts({ ...props }) {
       console.log(response);
 
       setLiked(() => true);
+      await getPostReactions();
 
       return response.data;
     } catch (err) {
@@ -202,7 +203,19 @@ function Posts({ ...props }) {
         config
       );
 
-      setReactions(() => response.data["results"].reactions);
+      console.log("getPostReactions response");
+      console.log(response);
+      const reactors = response.data["results"].reactions[0].reactors;
+      setReactions(() => reactors);
+
+      // determine if a reactor in the post is the current logged in user in session
+      reactors.forEach((currentReactor) => {
+        console.log("reactor: ");
+        console.log(currentReactor);
+        if (currentReactor.userId === session["users"][0]["userId"]) {
+          setLiked(() => true);
+        }
+      });
 
       return response.data;
     } catch (err) {
@@ -287,7 +300,11 @@ function Posts({ ...props }) {
             reactions.map((r) => (
               <div className={Styles.reacteduserImgs}>
                 <img
-                  src={props.reactedUserImg}
+                  src={
+                    r.userId === session["users"][0]["userId"]
+                      ? session["users"][0]["avatarCustomUrl"]
+                      : props.reactedUserImg
+                  }
                   alt="user"
                   className={Styles.FullImg}
                 />
@@ -379,6 +396,7 @@ function Posts({ ...props }) {
         </div>
         <div className={Styles.commentInp}>
           <Input
+            value={commentText}
             placeholder="Write a comment"
             variant="offWhite"
             updatePostText={(comment: string) => setCommentText(() => comment)}

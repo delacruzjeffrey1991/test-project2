@@ -1,24 +1,24 @@
 import React, { useRef } from "react";
-import Styles from "./styles.module.scss";
-import Inputqa from "../../components/common/Inputqa";
-import Button from "../../components/common/Button";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faVideo,
+  faCalendar,
+  faFile,
   faImage,
   faSmile,
-  faFile,
-  faCalendar,
+  faVideo,
 } from "@fortawesome/free-solid-svg-icons";
-import { FaMoneyBillWave } from "react-icons/fa";
-import { useState, useEffect } from "react";
-import axios from "axios";
-import { AxiosResponse } from "axios";
-import MediaSelector from "../MediaSelector";
+import { useEffect, useState } from "react";
 
+import { AxiosResponse } from "axios";
+import Button from "../../components/common/Button";
+import { FaMoneyBillWave } from "react-icons/fa";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Inputqa from "../../components/common/Inputqa";
+import MediaSelector from "../MediaSelector";
+import Styles from "./styles.module.scss";
+import axios from "axios";
 import { useAuth } from "../../hooks/form/useAuth";
 
-function CreatePost({ variant = "primary", setPosts }) {
+function CreatePost({ variant = "primary", setPosts, fetchPosts }) {
   const [postText, setPostText] = useState<string>("");
   const [selectedMedia, setSelectedMedia] = useState<[any]>();
   const [mediaPickerVisible, setMediaPickerVisible] = useState<boolean>(false);
@@ -28,12 +28,21 @@ function CreatePost({ variant = "primary", setPosts }) {
   const { store } = useAuth(null);
   const { xAPIKey, session } = store;
 
+  const addNewPost = (data: any): void => {
+    setPosts((prevPosts) => {
+      console.log("prevPosts");
+      console.log(prevPosts);
+      console.log("newPost");
+      return {
+        ...prevPosts,
+        [prevPosts.length]: { ...data },
+      };
+    });
+  };
+
   const updatePostText = (name: string): void => {
     setPostText(name);
   };
-
-  console.log("setPosts");
-  console.log(setPosts);
 
   const handleAttachMedia = (event) => {
     event.preventDefault();
@@ -108,8 +117,7 @@ function CreatePost({ variant = "primary", setPosts }) {
 
       console.log("Posts");
 
-      setReload((prevCount) => prevCount + 1);
-      // window.location.reload();
+      fetchPosts();
     })();
   };
 
@@ -119,9 +127,10 @@ function CreatePost({ variant = "primary", setPosts }) {
 
     (async () => {
       const response3 = await createPost();
+      console.log("successful createPost response:");
       console.log(response3);
-      // window.location.reload();
-      setReload((prevCount) => prevCount + 1);
+      setPostText(() => "");
+      fetchPosts();
     })();
   };
 
@@ -137,9 +146,6 @@ function CreatePost({ variant = "primary", setPosts }) {
         },
         dataType: "upstra.customtype",
         targetType: "user",
-        targetId: session["users"][0]["userId"],
-        metadata: {},
-        postId: now + session["users"][0]["userId"],
         tags: ["string"],
         createdAt: now.toJSON(),
       };
@@ -147,7 +153,7 @@ function CreatePost({ variant = "primary", setPosts }) {
       const response = await axios.post<any>(v3API + "/posts", requestData);
       console.log("createPost response");
       console.log(response);
-      return response.data;
+      return response.data.posts[0];
       // return "";
     } catch (err) {
       console.log(err);
@@ -159,7 +165,8 @@ function CreatePost({ variant = "primary", setPosts }) {
     <>
       <div className={`${Styles.userCreatePost} ${Styles[variant]}`}>
         <Inputqa
-          placeholder="Who Would you like to recognize?"
+          value={postText}
+          placeholder="Who would you like to recognize?"
           updatePostText={updatePostText}
         />
         {mediaPickerVisible && (

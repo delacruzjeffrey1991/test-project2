@@ -1,6 +1,7 @@
+import { ChangeEvent, useEffect, useState } from "react";
+
 import React from "react";
 import Styles from "./styles.module.scss";
-import { useState, useEffect, ChangeEvent } from "react";
 
 function Inputqa({
   variant = "white",
@@ -8,12 +9,6 @@ function Inputqa({
   color = "gray",
   ...props
 }) {
-  //const [firstChildName, setFirstChildName] = useState<string>('')
-
-  //useEffect(() => {
-  //    setFirstChildName(props.name)
-  //}, [props.name])
-
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     //setFirstChildName(event.target.value);
     props.updatePostText(event.target.value);
@@ -23,6 +18,7 @@ function Inputqa({
     <>
       <input
         type={type}
+        value={props.value}
         placeholder={`${props.placeholder}`}
         className={` ${Styles.inpuField} ${Styles[variant]} ${Styles[color]}`}
         onChange={handleChange}
