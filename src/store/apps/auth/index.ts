@@ -1,15 +1,16 @@
+import "react-toastify/dist/ReactToastify.css";
+
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+
+import AuthServices from "../../../Services/auth.service";
 // ** Redux Imports
 import { Dispatch } from "redux";
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import cookies from "src/utils/cookies";
-import AuthServices from "../../../Services/auth.service";
-import ProfileServices from "../../../Services/profile.service";
-import { xAPIKey } from "./constants";
-
 // ** Types Imports
 import { IAuth } from "../../../types/auth";
+import ProfileServices from "../../../Services/profile.service";
+import cookies from "src/utils/cookies";
+import { toast } from "react-toastify";
+import { xAPIKey } from "./constants";
 
 interface InitialState {
   auths: IAuth[] | [];
