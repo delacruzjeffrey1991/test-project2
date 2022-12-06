@@ -1,6 +1,7 @@
 import { Col, Container, Row } from "react-bootstrap";
 import { useEffect, useRef, useState } from "react";
 
+import { AppDispatch } from "src/store";
 import { AxiosResponse } from "axios";
 import CreatePost from "../../components/CreatePost";
 import Event from "../../components/common/Event";
@@ -25,6 +26,8 @@ import inst4Img from "../../assets/images/inst4.png";
 import inst5Img from "../../assets/images/inst5.png";
 import moment from "moment";
 import { useAuth } from "../../hooks/form/useAuth";
+import { useDispatch } from "react-redux";
+import { verifyAction } from "src/store/apps/auth";
 
 const Community = () => {
   const [posts, setPosts] = useState([]);
@@ -45,7 +48,7 @@ const Community = () => {
 
   useEffect(() => {
     fetchPosts();
-  }, [reload]);
+  }, [reload, store]);
 
   const fetchPosts = async () => {
     try {
@@ -97,7 +100,7 @@ const Community = () => {
     console.log("Avatar change result");
     console.log(response3);
 
-    setReload((prevCount) => prevCount + 1);
+    window.location.reload();
   };
 
   const handleSelectedAvatarChange = (event) => {
@@ -131,6 +134,7 @@ const Community = () => {
 
       console.log("avatar upload response");
       console.log(response3.data);
+
       return response3.data;
     } catch (err) {
       console.log(err);
@@ -141,155 +145,159 @@ const Community = () => {
   console.log("Posts");
   console.log(posts);
 
-  return (
-    <>
-      <Row>
-        <Col sm={10}>
-          <ProfileCover
-            userCoverImg={coverImg}
-            handleAvatarChange={handleChangeAvatarBtn}
-          />
-          <div style={{ display: "none" }}>
-            <MediaSelector
-              handleRef={avatarPickerRef}
-              handleAttachedMediaChange={handleSelectedAvatarChange}
+  if (Object.keys(session).length != 0) {
+    return (
+      <>
+        <Row>
+          <Col sm={10}>
+            <ProfileCover
+              userCoverImg={coverImg}
+              handleAvatarChange={handleChangeAvatarBtn}
             />
-          </div>
-          <Row className={Styles.profileFeed}>
-            <Col sm={3}>
-              <Recognition />
-              <Mentorship />
-            </Col>
-            <Col sm={1}></Col>
-            <Col sm={8}>
-              <CreatePost
-                variant="primary"
-                setPosts={setPosts}
-                fetchPosts={fetchPosts}
+            <div style={{ display: "none" }}>
+              <MediaSelector
+                handleRef={avatarPickerRef}
+                handleAttachedMediaChange={handleSelectedAvatarChange}
               />
-              {/* <Posts
-                postOwnerImg={inst3Img}
-                postOwner="You"
-                postTime="Just Now"
-                postImg={coverImg}
-                lessonNumber="1"
-                lessonName="Leadership and Organizational Training"
-                partNumber="1"
-                partName="Introduction"
-                lessonNextBtn="Watch Part 2"
-                lessonNextBtnIcon={faArrowRight}
-                reactedUserImg={inst4Img}
-                commentsCount="0"
-                shareCount="0"
-                currentUserImg={inst3Img}
+            </div>
+            <Row className={Styles.profileFeed}>
+              <Col sm={3}>
+                <Recognition />
+                <Mentorship />
+              </Col>
+              <Col sm={1}></Col>
+              <Col sm={8}>
+                <CreatePost
+                  variant="primary"
+                  setPosts={setPosts}
+                  fetchPosts={fetchPosts}
+                />
+                {/* <Posts
+                  postOwnerImg={inst3Img}
+                  postOwner="You"
+                  postTime="Just Now"
+                  postImg={coverImg}
+                  lessonNumber="1"
+                  lessonName="Leadership and Organizational Training"
+                  partNumber="1"
+                  partName="Introduction"
+                  lessonNextBtn="Watch Part 2"
+                  lessonNextBtnIcon={faArrowRight}
+                  reactedUserImg={inst4Img}
+                  commentsCount="0"
+                  shareCount="0"
+                  currentUserImg={inst3Img}
+                />
+                <Posts
+                  postOwnerImg={inst3Img}
+                  postOwner="You"
+                  postTime="32 mins ago"
+                  reactedUserImg={inst4Img}
+                  commentsCount="0"
+                  shareCount="0"
+                  currentUserImg={inst3Img}
+                  postText=" I would like to Kudos @Carla, for the #courteousness in every appointment, and deadlines throughout the month of may "
+                /> */}
+                {posts.map((p) => {
+                  if (Array.isArray(p.data.images)) {
+                    return (
+                      <Posts
+                        postOwnerImg={inst3Img}
+                        postOwner="You"
+                        postImgId={p.data.images[0]}
+                        postTime={moment(p.updatedAt).fromNow()}
+                        reactedUserImg={inst4Img}
+                        commentsCount="0"
+                        shareCount="0"
+                        currentUserImg={inst3Img}
+                        postText={p.data.text}
+                        id={p._id}
+                        postId={p.postId}
+                      />
+                    );
+                  } else {
+                    return (
+                      <Posts
+                        postOwnerImg={inst3Img}
+                        postOwner="You"
+                        postTime={moment(p.updatedAt).fromNow()}
+                        reactedUserImg={inst4Img}
+                        commentsCount="0"
+                        shareCount="0"
+                        currentUserImg={inst3Img}
+                        postText={p.data.text}
+                        id={p._id}
+                        postId={p.postId}
+                      />
+                    );
+                  }
+                })}
+              </Col>
+            </Row>
+          </Col>
+          <Col sm={2}>
+            <Heading label="Resource Groups" variant="heading5" />
+            <div className={Styles.grpRecom}>
+              <Group image={doneImg} heading={`Women's Group`} />
+              <Group image={doneImg} heading={`Disabilities`} />
+            </div>
+            <div className={Styles.friendRecom}>
+              <Heading label="Friend Recommendations" variant="heading5" />
+              <FriendSuggestion
+                userImg={inst5Img}
+                userName="Steve Harris"
+                courcesCount={30}
+                videosCount={12}
               />
-              <Posts
-                postOwnerImg={inst3Img}
-                postOwner="You"
-                postTime="32 mins ago"
-                reactedUserImg={inst4Img}
-                commentsCount="0"
-                shareCount="0"
-                currentUserImg={inst3Img}
-                postText=" I would like to Kudos @Carla, for the #courteousness in every appointment, and deadlines throughout the month of may "
-              /> */}
-              {posts.map((p) => {
-                if (Array.isArray(p.data.images)) {
-                  return (
-                    <Posts
-                      postOwnerImg={inst3Img}
-                      postOwner="You"
-                      postImgId={p.data.images[0]}
-                      postTime={moment(p.updatedAt).fromNow()}
-                      reactedUserImg={inst4Img}
-                      commentsCount="0"
-                      shareCount="0"
-                      currentUserImg={inst3Img}
-                      postText={p.data.text}
-                      id={p._id}
-                      postId={p.postId}
-                    />
-                  );
-                } else {
-                  return (
-                    <Posts
-                      postOwnerImg={inst3Img}
-                      postOwner="You"
-                      postTime={moment(p.updatedAt).fromNow()}
-                      reactedUserImg={inst4Img}
-                      commentsCount="0"
-                      shareCount="0"
-                      currentUserImg={inst3Img}
-                      postText={p.data.text}
-                      id={p._id}
-                      postId={p.postId}
-                    />
-                  );
-                }
-              })}
-            </Col>
-          </Row>
-        </Col>
-        <Col sm={2}>
-          <Heading label="Resource Groups" variant="heading5" />
-          <div className={Styles.grpRecom}>
-            <Group image={doneImg} heading={`Women's Group`} />
-            <Group image={doneImg} heading={`Disabilities`} />
-          </div>
-          <div className={Styles.friendRecom}>
-            <Heading label="Friend Recommendations" variant="heading5" />
-            <FriendSuggestion
-              userImg={inst5Img}
-              userName="Steve Harris"
-              courcesCount={30}
-              videosCount={12}
-            />
-            <FriendSuggestion
-              userImg={inst4Img}
-              userName="Mika Davis"
-              courcesCount={30}
-              videosCount={12}
-            />
-            <FriendSuggestion
-              userImg={inst3Img}
-              userName="Bilan Jones"
-              courcesCount={30}
-              videosCount={12}
-            />
-            <FriendSuggestion
-              userImg={inst2Img}
-              userName="Ju Anderson"
-              courcesCount={30}
-              videosCount={12}
-            />
-            <FriendSuggestion
-              userImg={inst1Img}
-              userName="Benjamin Smith"
-              courcesCount={30}
-              videosCount={12}
-            />
-          </div>
-          {/* <EventImg eventImage={coverImg} /> */}
-          <Heading label="Recent Events" variant="heading4" border="bottom" />
+              <FriendSuggestion
+                userImg={inst4Img}
+                userName="Mika Davis"
+                courcesCount={30}
+                videosCount={12}
+              />
+              <FriendSuggestion
+                userImg={inst3Img}
+                userName="Bilan Jones"
+                courcesCount={30}
+                videosCount={12}
+              />
+              <FriendSuggestion
+                userImg={inst2Img}
+                userName="Ju Anderson"
+                courcesCount={30}
+                videosCount={12}
+              />
+              <FriendSuggestion
+                userImg={inst1Img}
+                userName="Benjamin Smith"
+                courcesCount={30}
+                videosCount={12}
+              />
+            </div>
+            {/* <EventImg eventImage={coverImg} /> */}
+            <Heading label="Recent Events" variant="heading4" border="bottom" />
 
-          <Event
-            ownerImg={inst1Img}
-            eventTitle="Membership and why it..."
-            eventDetails="Creating a workspace where..."
-            eventSeen="8"
-            seenedUser={inst3Img}
-          />
-          <Event
-            ownerImg={inst1Img}
-            eventTitle="Membership and why it..."
-            eventDetails="Creating a workspace where..."
-            eventSeen="8"
-            seenedUser={inst3Img}
-          />
-        </Col>
-      </Row>
-    </>
-  );
+            <Event
+              ownerImg={inst1Img}
+              eventTitle="Membership and why it..."
+              eventDetails="Creating a workspace where..."
+              eventSeen="8"
+              seenedUser={inst3Img}
+            />
+            <Event
+              ownerImg={inst1Img}
+              eventTitle="Membership and why it..."
+              eventDetails="Creating a workspace where..."
+              eventSeen="8"
+              seenedUser={inst3Img}
+            />
+          </Col>
+        </Row>
+      </>
+    );
+  } else {
+    return <>Loading...</>;
+  }
 };
 
 export default Community;

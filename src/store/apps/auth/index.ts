@@ -139,8 +139,13 @@ export const verifyAction = createAsyncThunk(
   "auth/verify",
   async (data: any, { getState, dispatch }: Redux) => {
     try {
+      console.log("verifyAction");
       const response = await AuthServices.verify();
+      const email = response.data.data.user.email;
+      const userId = response.data.data.user.email;
+      const sessionResponse = await AuthServices.session(userId, email);
       dispatch(slice.actions.handleUser(response.data.data));
+      dispatch(slice.actions.handleSession(sessionResponse));
       return response.data;
     } catch (error: any) {
       toast.error(error.response.data.message || "Something went wrong!");
