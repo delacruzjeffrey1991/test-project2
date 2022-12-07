@@ -22,6 +22,7 @@ function Inputqa({
         placeholder={`${props.placeholder}`}
         className={` ${Styles.inpuField} ${Styles[variant]} ${Styles[color]}`}
         onChange={handleChange}
+        onKeyUp={props.handleKeyUp}
       />
     </>
   );

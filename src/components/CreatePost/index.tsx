@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import {
   faCalendar,
+  faClose,
   faFile,
   faImage,
   faSmile,
@@ -14,19 +15,84 @@ import { FaMoneyBillWave } from "react-icons/fa";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Inputqa from "../../components/common/Inputqa";
 import MediaSelector from "../MediaSelector";
+import Popup from "reactjs-popup";
 import Styles from "./styles.module.scss";
 import axios from "axios";
+import { postMentioneesType } from "src/types/createPost";
 import { useAuth } from "../../hooks/form/useAuth";
 
 function CreatePost({ variant = "primary", setPosts, fetchPosts }) {
   const [postText, setPostText] = useState<string>("");
   const [selectedMedia, setSelectedMedia] = useState<[any]>();
   const [mediaPickerVisible, setMediaPickerVisible] = useState<boolean>(false);
-  const [reload, setReload] = useState(0);
+  const [userPickerVisible, setUserPickerVisible] = useState<boolean>(false);
+  const [users, setUsers] = useState<{}>({});
+  const [postMentionees, setPostMentionees] = useState<string[]>([]);
   const v3API = "https://api.us.amity.co/api/v3";
 
   const { store } = useAuth(null);
   const { xAPIKey, session } = store;
+
+  const closeUserPicker = () => setUserPickerVisible(false);
+
+  const getUsers = async () => {
+    const usersRes = await axios.get(
+      `${v3API}/users?token=${session["accessToken"]}`,
+      {
+        headers: {
+          "x-api-key": xAPIKey,
+          Authorization: "Bearer " + session["accessToken"],
+        },
+      }
+    );
+    console.log("users: ");
+    console.log(usersRes);
+    setUsers(() => usersRes.data.users);
+  };
+
+  const handleAtPress = (event: any): void => {
+    console.log(event.key);
+    const { value } = event.target;
+    if (value.slice(-1) == "@") {
+      console.log("@ press detected!");
+      setUserPickerVisible(() => true);
+    } else {
+      setUserPickerVisible(() => false);
+    }
+  };
+
+  const handleRemoveMentionedUser = (rUserId: any) => {
+    console.log("removing " + rUserId);
+    const prevPostMentionees = postMentionees;
+    const nextPostMentionees = prevPostMentionees.filter(
+      (userId) => userId !== rUserId
+    );
+    // set the new post mentionees that had the userId removed
+    setPostMentionees(() => nextPostMentionees);
+
+    const prevPostText = postText;
+    const nextPostText = prevPostText.replace("@" + rUserId, "");
+    // remove the mention word from the comment text
+    setPostText(() => nextPostText);
+  };
+
+  const handleMentionUser = (event: any) => {
+    const { name } = event.target;
+    setPostText((prevPostText) => {
+      return `${prevPostText}${name}`;
+    });
+    setUserPickerVisible(false);
+    setPostMentionees((prevPostMentionees) => {
+      return [...prevPostMentionees, name];
+    });
+  };
+
+  useEffect(() => {
+    // fetch users
+    if (Object.keys(users).length === 0) {
+      getUsers();
+    }
+  }, [userPickerVisible]);
 
   const addNewPost = (data: any): void => {
     setPosts((prevPosts) => {
@@ -40,8 +106,8 @@ function CreatePost({ variant = "primary", setPosts, fetchPosts }) {
     });
   };
 
-  const updatePostText = (name: string): void => {
-    setPostText(name);
+  const updatePostText = (newPostText: string): void => {
+    setPostText(newPostText);
   };
 
   const handleAttachMedia = (event) => {
@@ -104,9 +170,7 @@ function CreatePost({ variant = "primary", setPosts, fetchPosts }) {
         },
         dataType: "upstra.customtype",
         targetType: "user",
-        targetId: session["users"][0]["userId"],
         metadata: {},
-        postId: now + session["users"][0]["userId"],
         tags: ["string"],
         createdAt: now.toJSON(),
       };
@@ -129,32 +193,48 @@ function CreatePost({ variant = "primary", setPosts, fetchPosts }) {
       const response3 = await createPost();
       console.log("successful createPost response:");
       console.log(response3);
-      setPostText(() => "");
+      resetPost();
       fetchPosts();
     })();
   };
 
+  const resetPost = () => {
+    setPostText(() => "");
+    setPostMentionees(() => []);
+  };
+
   const createPost = async (): Promise<string> => {
     try {
-      axios.defaults.headers["x-api-key"] = xAPIKey;
-      axios.defaults.headers["Authorization"] =
-        "Bearer " + session["accessToken"];
       const now = new Date();
-      const requestData = {
-        data: {
-          text: postText,
+      const response = await axios.post<any>(
+        v3API + "/posts",
+        {
+          data: {
+            text: postText,
+          },
+          dataType: "upstra.customtype",
+          targetType: "user",
+          tags: ["string"],
+          createdAt: now.toJSON(),
+          metadata: {
+            mentionees: [
+              {
+                type: "user",
+                userIds: postMentionees,
+              },
+            ],
+          },
         },
-        dataType: "upstra.customtype",
-        targetType: "user",
-        tags: ["string"],
-        createdAt: now.toJSON(),
-      };
-
-      const response = await axios.post<any>(v3API + "/posts", requestData);
+        {
+          headers: {
+            "x-api-key": xAPIKey,
+            Authorization: "Bearer " + session["accessToken"],
+          },
+        }
+      );
       console.log("createPost response");
       console.log(response);
       return response.data.posts[0];
-      // return "";
     } catch (err) {
       console.log(err);
       return "";
@@ -164,16 +244,65 @@ function CreatePost({ variant = "primary", setPosts, fetchPosts }) {
   return (
     <>
       <div className={`${Styles.userCreatePost} ${Styles[variant]}`}>
+        {Object.values(postMentionees).map((userId: string) => (
+          <div className="badge text-bg-secondary">
+            <span>{userId}</span>
+            <Button
+              variant="transparent"
+              color="whiteColor"
+              icon={<FontAwesomeIcon icon={faClose} />}
+              size="sizeAuto"
+              onClick={() => handleRemoveMentionedUser(userId)}
+            />
+          </div>
+        ))}
+        <Popup open={userPickerVisible} arrow={false} closeOnDocumentClick>
+          <div className="list-group">
+            <>
+              {Object.keys(users).length !== 0 && (
+                <div className="card">
+                  <div className="card-body">
+                    <h5 className="card-title">Select user:</h5>
+                    <div className="list-group">
+                      {Object.values(users).map((u) => {
+                        return (
+                          <button
+                            type="button"
+                            className="list-group-item list-group-item-action btn-secondary"
+                            name={u["displayName"]}
+                            onClick={handleMentionUser}
+                            disabled={postMentionees.includes(u["userId"])}
+                          >
+                            {u["displayName"]}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+              )}
+              {Object.keys(users).length === 0 && (
+                <div className="card">
+                  <div className="card-body">
+                    <h5 className="card-title">Loading users...</h5>
+                  </div>
+                </div>
+              )}
+            </>
+          </div>
+        </Popup>
         <Inputqa
           value={postText}
           placeholder="Who would you like to recognize?"
           updatePostText={updatePostText}
+          handleKeyUp={handleAtPress}
         />
         {mediaPickerVisible && (
           <MediaSelector
             handleAttachedMediaChange={handleAttachedMediaChange}
           />
         )}
+
         <div className={Styles.createpostBtnsMain}>
           <div className={Styles.createpostBtns}>
             <Button

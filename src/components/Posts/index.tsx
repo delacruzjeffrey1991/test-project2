@@ -52,6 +52,8 @@ function Posts({ ...props }) {
   console.log(props.postImgId);
   console.log("post details");
   console.log(postInfo);
+  console.log("metadata");
+  console.log(props.metadata);
 
   const getPostDetails = async (): Promise<any> => {
     console.log("fetch post details");
@@ -249,7 +251,17 @@ function Posts({ ...props }) {
 
       {props.postText ? (
         <div>
-          <p className={Styles.postText}>{props.postText}</p>
+          <p className={Styles.postText}>
+            {props.postText}
+            <br />
+            <br />
+            {props.metadata && (
+              <p className={Styles.postMentionees}>
+                -- with{" "}
+                {Object.values(props.metadata.mentionees[0].userIds).join(" ")}
+              </p>
+            )}
+          </p>
         </div>
       ) : (
         ""

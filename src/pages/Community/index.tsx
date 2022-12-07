@@ -228,6 +228,7 @@ const Community = () => {
                         postText={p.data.text}
                         id={p._id}
                         postId={p.postId}
+                        metadata={p.metadata}
                       />
                     );
                   }
