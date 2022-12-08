@@ -125,6 +125,9 @@ button.transparent {
 button.sizeAuto {
   min-width: unset;
 }
+button.sizeSmallest {
+  max-width: 1px;
+}
 button.transparent.secondary:hover,
 button.transparent.primary {
   color: var(--primary);
